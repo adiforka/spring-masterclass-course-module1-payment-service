@@ -1,10 +1,13 @@
 package com.adison.shop.payments;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 import java.time.Instant;
 
 @Log
+@RequiredArgsConstructor
+//will provide constructor with final fields as parameters (or all not null-annotated fields, if you have any)
 public class FakePaymentService {
 
     private static final String logEntry = "A new payment for %s has been initiated";
@@ -12,12 +15,11 @@ public class FakePaymentService {
     //breaks dependency inversion of principle, since we have concretions dependent one on another
     //above all, this breaks the single responsibility principle, since a payment service should process payments
     //and not generate ids
-    private final UUIDPaymentIdGenerator uuidPaymentIdGenerator = new UUIDPaymentIdGenerator();
-
+    private final PaymentIdGenerator paymentIdGenerator;
 
     public Payment process(PaymentRequest paymentRequest) {
         var payment =  Payment.builder()
-                .id(uuidPaymentIdGenerator.getNext())
+                .id(paymentIdGenerator.getNext())
                 .money(paymentRequest.getMoney())
                 .timestamp(Instant.now())
                 .status(PaymentStatus.STARTED)
