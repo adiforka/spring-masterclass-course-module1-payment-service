@@ -12,9 +12,6 @@ public class FakePaymentService {
 
     private static final String logEntry = "A new payment for %s has been initiated";
 
-    //breaks dependency inversion of principle, since we have concretions dependent one on another
-    //above all, this breaks the single responsibility principle, since a payment service should process payments
-    //and not generate ids
     private final PaymentIdGenerator paymentIdGenerator;
 
     public Payment process(PaymentRequest paymentRequest) {
