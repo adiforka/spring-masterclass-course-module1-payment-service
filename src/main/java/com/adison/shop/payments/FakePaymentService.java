@@ -1,33 +1,23 @@
 package com.adison.shop.payments;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 
 import java.time.Instant;
 
-@Log
 @RequiredArgsConstructor
 //will provide constructor with final fields as parameters (or all not null-annotated fields, if you have any)
-public class FakePaymentService {
+public class FakePaymentService implements PaymentService {
 
-    private static final String logEntry = "A new payment for %s has been initiated";
-
+    //used an interface here, even though course uses FakePaymentService
     private final PaymentIdGenerator paymentIdGenerator;
 
+    @Override
     public Payment process(PaymentRequest paymentRequest) {
-        var payment =  Payment.builder()
+        return Payment.builder()
                 .id(paymentIdGenerator.getNext())
                 .money(paymentRequest.getMoney())
                 .timestamp(Instant.now())
                 .status(PaymentStatus.STARTED)
                 .build();
-
-        log.info(createLogEntry(payment));
-        return payment;
-    }
-
-    //log here for now, using Lombok's logger object
-    private String createLogEntry(Payment payment) {
-        return String.format(logEntry, payment.getMoney());
     }
 }

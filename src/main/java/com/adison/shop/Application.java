@@ -8,7 +8,8 @@ public class Application {
     //this is really configuration code, to be handled by an application context later on
     public static void main(String[] args) {
         var paymentIdGenerator = new IncrementalPaymentIdGenerator();
-        var paymentService = new FakePaymentService(paymentIdGenerator);
+        var fakePaymentService = new FakePaymentService(paymentIdGenerator);
+        var paymentService = new LoggingPaymentService(fakePaymentService);
 
         var paymentRequest = PaymentRequest.builder()
                 .money(LocalMoney.of(1_000))
