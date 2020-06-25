@@ -21,6 +21,12 @@
             <artifactId>spring-context</artifactId>
             <version>5.2.7.RELEASE</version>
         </dependency>
+        <!--automating aspect logic with AspectJ-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.5</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

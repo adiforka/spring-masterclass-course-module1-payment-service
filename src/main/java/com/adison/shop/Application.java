@@ -12,7 +12,8 @@ public class Application {
     public static void main(String[] args) {
         //annotation-based container. make sure to use TWR on this to have it closed once the application exits
         try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(BASE_PACKAGE)) {
-            var paymentService = applicationContext.getBean(LoggingPaymentService.class);
+            //having configured AspectJ, we can now ask Spring for an instance of PaymentService:
+            var paymentService = applicationContext.getBean(PaymentService.class);
             var paymentRequest = PaymentRequest.builder()
                     .money(LocalMoney.of(1_000))
                     .build();
