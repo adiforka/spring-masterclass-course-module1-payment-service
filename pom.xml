@@ -15,6 +15,12 @@
     </properties>
 
     <dependencies>
+        <!--adding spring context to use its IOC for DI etc.-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.7.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

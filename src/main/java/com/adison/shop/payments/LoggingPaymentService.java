@@ -2,7 +2,9 @@ package com.adison.shop.payments;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.stereotype.Service;
 
+@Service
 @Log
 @RequiredArgsConstructor
 //this is a proxy class for FakePaymentService
