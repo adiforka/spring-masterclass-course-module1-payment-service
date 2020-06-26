@@ -1,40 +1,43 @@
 package com.adison.shop.payments;
 
-import org.javamoney.moneta.FastMoney;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.AdditionalAnswers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class FakePaymentServiceTest {
 
     private static final String PAYMENT_ID = "1";
-    private static final FastMoney MONEY = LocalMoney.of(1_000);
     private static final PaymentRequest PAYMENT_REQUEST = PaymentRequest.builder()
-            .money(MONEY)
+            .money(LocalMoney.of(10_000))
             .build();
 
     @Mock
-    private PaymentIdGenerator generator;
+    private PaymentIdGenerator idGenerator;
     @Mock
     private PaymentRepository paymentRepository;
     private Payment payment;
 
     @BeforeEach
-    void init() {
-        when(generator.getNext()).thenReturn(PAYMENT_ID);
-        //when save called on any payment instance, return the same instance--all mocks with when...verify etc.
+    void setup() {
+        FakePaymentService service = new FakePaymentService(idGenerator, paymentRepository);
+        when(idGenerator.getNext()).thenReturn(PAYMENT_ID);
         when(paymentRepository.save(any(Payment.class))).then(returnsFirstArg());
-        FakePaymentService fakePaymentService = new FakePaymentService(generator, paymentRepository);
-        payment = fakePaymentService.process(PAYMENT_REQUEST);
+        //the tested method is called here, unique call for every test case
+        payment = service.process(PAYMENT_REQUEST);
     }
 
     @DisplayName("Should assign generated id to created payment")
@@ -46,24 +49,24 @@ public class FakePaymentServiceTest {
     @DisplayName("Should assign money from payment request to created payment")
     @Test
     void shouldAssignMoneyFromPaymentRequestToCreatedPayment() {
-        assertEquals(MONEY, payment.getMoney());
+        assertEquals(PAYMENT_REQUEST.getMoney(), payment.getMoney());
     }
 
     @DisplayName("Should assign a timestamp to payment")
     @Test
-    void shouldAssignTimestampToPayment() {
+    void shouldSetTimestampOnCreatedPayment() {
         assertNotNull(payment.getTimestamp());
     }
 
     @DisplayName("Should set payment status to STARTED on created payment")
     @Test
-    void shouldSetPaymentStatusToStartedOnCreatedPayment() {
+    void shouldSetStatusOnCreatedPaymentToStarted() {
         assertEquals(PaymentStatus.STARTED, payment.getStatus());
     }
 
-    @DisplayName("Should save created payment")
+    @DisplayName("Should call save passing in created payment")
     @Test
-    void shouldSaveCreatedPayment() {
+    void shouldCallSavePassingInCreatedPayment() {
         verify(paymentRepository).save(payment);
     }
 }

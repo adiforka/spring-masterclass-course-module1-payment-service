@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class HashMapPaymentRepository implements PaymentRepository {
+public class MapPaymentRepository implements PaymentRepository {
 
     @Setter
     private Map<String, Payment> payments = new HashMap<>();
-
 
     @Override
     public Payment save(Payment payment) {

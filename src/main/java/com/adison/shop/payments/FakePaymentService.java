@@ -16,7 +16,7 @@ public class FakePaymentService implements PaymentService {
     @LogPayments
     @Override
     public Payment process(PaymentRequest paymentRequest) {
-        var payment = Payment.builder()
+        var payment =  Payment.builder()
                 .id(paymentIdGenerator.getNext())
                 .money(paymentRequest.getMoney())
                 .timestamp(Instant.now())

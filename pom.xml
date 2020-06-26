@@ -28,7 +28,7 @@
     </build>
 
     <dependencies>
-        <!--adding spring context to use its IOC for DI etc.-->
+        <!--adding spring context to use its IOC container for DI etc.-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
