@@ -5,12 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.AdditionalAnswers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class FakePaymentServiceTest {
@@ -21,15 +23,20 @@ public class FakePaymentServiceTest {
             .money(MONEY)
             .build();
 
-    private Payment payment;
     @Mock
     private PaymentIdGenerator generator;
+    @Mock
+    private PaymentRepository paymentRepository;
+    private Payment payment;
+    private FakePaymentService fakePaymentService;
 
 
     @BeforeEach
     void init() {
         when(generator.getNext()).thenReturn(PAYMENT_ID);
-        FakePaymentService fakePaymentService = new FakePaymentService(generator);
+        //when save called on any payment instance, return the same instance--all mocks with when...verify etc.
+        when(paymentRepository.save(any(Payment.class))).then(returnsFirstArg());
+        fakePaymentService = new FakePaymentService(generator, paymentRepository);
         payment = fakePaymentService.process(PAYMENT_REQUEST);
     }
 
@@ -57,4 +64,9 @@ public class FakePaymentServiceTest {
         assertEquals(PaymentStatus.STARTED, payment.getStatus());
     }
 
+    @DisplayName("Should save created payment")
+    @Test
+    void shouldSaveCreatedPayment() {
+        verify(paymentRepository).save(payment);
+    }
 }
