@@ -10,7 +10,6 @@ import java.time.Instant;
 //will provide constructor with final fields as parameters (or all not null-annotated fields, if you have any)
 public class FakePaymentService implements PaymentService {
 
-    //used an interface here, even though course uses FakePaymentService
     private final PaymentIdGenerator paymentIdGenerator;
     private final PaymentRepository paymentRepository;
 
