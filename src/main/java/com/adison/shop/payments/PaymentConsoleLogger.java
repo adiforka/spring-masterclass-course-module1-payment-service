@@ -6,15 +6,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 @Aspect
-//every aspect needs to be a Spring bean
 @Component
 @Log
 public class PaymentConsoleLogger {
 
     private static final String LOG_ENTRY = "A new payment for %s has been initiated";
 
-    //the method that'll take care of logging
-    //(chose annotation-based mechanism to annotate the method this runs after)
     @AfterReturning(value = "@annotation(LogPayments)", returning = "payment")
     public void log(Payment payment) {
         log.info(createLogEntry(payment));

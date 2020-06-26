@@ -6,7 +6,6 @@ import org.javamoney.moneta.FastMoney;
 
 import java.time.Instant;
 
-//see payment request on annotation comment
 @Value
 @Builder
 public class Payment {
@@ -14,7 +13,5 @@ public class Payment {
     String id;
     FastMoney money;
     Instant timestamp;
-    //interesting: we're making Payment instances immutable,
-    //so how will we be able to update the payment's status?
     PaymentStatus status;
 }
