@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Aspect
 //every aspect needs to be a Spring bean
-@Service
 @Log
 public class PaymentConsoleLogger {
 

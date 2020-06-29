@@ -2,18 +2,19 @@ package com.adison.shop;
 
 import com.adison.shop.payments.*;
 import lombok.extern.java.Log;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @Log
 public class Application {
     //tell the container where to look for configuration for the app
-    private static final String BASE_PACKAGE = "com.adison.shop";
+    private static final String CONFIG_LOCATION = "beans.xml";
 
     public static void main(String[] args) {
         //annotation-based container. make sure to use TWR on this
         //to have it closed once the application exits
-        try (AnnotationConfigApplicationContext applicationContext =
-                     new AnnotationConfigApplicationContext(BASE_PACKAGE)) {
+        try (ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(CONFIG_LOCATION)){
 
             //having configured AspectJ (including in the config class),
             //we can now ask Spring for an instance of PaymentService:

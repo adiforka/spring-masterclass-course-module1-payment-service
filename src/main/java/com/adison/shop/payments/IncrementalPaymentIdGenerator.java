@@ -4,7 +4,6 @@ import lombok.Setter;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
-@IdGenerator("incremental")
 public class IncrementalPaymentIdGenerator implements PaymentIdGenerator {
 
     private static final String ID_FORMAT = "%010d";

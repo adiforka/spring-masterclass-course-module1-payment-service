@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--for xml to handle aspect, add the following tag-->
+    <aop:aspectj-autoproxy/>
+    <!--alternatively, tell xml to scan for config annotations as well. > 1 configs will run together-->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.adison.shop"/>
+
+    <bean name="incrementalPaymentIdGenerator" class="com.adison.shop.payments.IncrementalPaymentIdGenerator"/>
+
+    <bean name="uuidPaymentIdGenerator" class="com.adison.shop.payments.UUIDPaymentIdGenerator"/>
+
+    <bean name="mapPaymentRepository" class="com.adison.shop.payments.MapPaymentRepository"/>
+
+    <bean name="fakePaymentService" class="com.adison.shop.payments.FakePaymentService" init-method="init" destroy-method="destroy">
+        <constructor-arg name="paymentIdGenerator" ref="uuidPaymentIdGenerator"/>
+        <constructor-arg name="paymentRepository" ref="mapPaymentRepository"/>
+    </bean>
+
+    <!--not yet implemented-->
+    <bean class="com.adison.shop.payments.PaymentConsoleLogger"/>
+
+</beans>
