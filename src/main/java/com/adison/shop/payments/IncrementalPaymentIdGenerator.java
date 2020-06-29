@@ -1,10 +1,10 @@
 package com.adison.shop.payments;
 
 import lombok.Setter;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 
-//makes the class a Spring-managed component (bean, ofc)
-//@Component
+@IdGenerator("incremental")
 public class IncrementalPaymentIdGenerator implements PaymentIdGenerator {
 
     private static final String ID_FORMAT = "%010d";

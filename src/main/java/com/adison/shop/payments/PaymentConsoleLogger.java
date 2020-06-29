@@ -4,10 +4,11 @@ import lombok.extern.java.Log;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Aspect
 //every aspect needs to be a Spring bean
-@Component
+@Service
 @Log
 public class PaymentConsoleLogger {
 

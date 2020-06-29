@@ -1,10 +1,8 @@
 package com.adison.shop.payments;
 
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
-@Component
+@IdGenerator(value = "uuid")
 public class UUIDPaymentIdGenerator implements PaymentIdGenerator {
 
     //random, not sequential
