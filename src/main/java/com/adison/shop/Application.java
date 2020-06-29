@@ -15,7 +15,7 @@ public class Application {
         try (AnnotationConfigApplicationContext applicationContext =
                      new AnnotationConfigApplicationContext(BASE_PACKAGE)) {
 
-            //having configured AspectJ (including in the config class),
+            //having configured AspectJ (incl. in the config class),
             //we can now ask Spring for an instance of PaymentService:
             var paymentService = applicationContext.getBean(PaymentService.class);
             var paymentRequest = PaymentRequest.builder()
