@@ -21,5 +21,11 @@ public class Application {
             var payment = paymentService.process(paymentRequest);
             log.info(payment.toString());
         }
+
+
+        int a = 123;
+        int b = 32;
+        var totalPages = (int)Math.ceil((double) a / b);
+        System.out.println("totalPages = " + totalPages);
     }
 }

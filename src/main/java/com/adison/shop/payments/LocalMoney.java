@@ -1,15 +1,25 @@
 package com.adison.shop.payments;
 
 import org.javamoney.moneta.FastMoney;
+import org.springframework.cglib.core.Local;
 
+import javax.money.CurrencyUnit;
 import javax.money.Monetary;
 import java.util.Locale;
 
+//utility class --> not to be instantiated. all static methods
 public class LocalMoney {
 
     public static FastMoney of(Number number) {
+        return FastMoney.of(number, getCurrencyUnit());
+    }
+
+    public static FastMoney zero() {
+        return FastMoney.zero(getCurrencyUnit());
+    }
+
+    public static CurrencyUnit getCurrencyUnit() {
         var locale = Locale.getDefault();
-        var currencyUnit = Monetary.getCurrency(locale);
-        return FastMoney.of(number, currencyUnit);
+        return Monetary.getCurrency(locale);
     }
 }

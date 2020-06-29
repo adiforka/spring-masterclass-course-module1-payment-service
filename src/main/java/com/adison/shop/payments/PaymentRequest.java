@@ -11,8 +11,7 @@ import org.javamoney.moneta.FastMoney;
 @Builder
 public class PaymentRequest {
 
-    //still want to use private (force of habit, makes reading my own code easier)
-    private Long id;
+    Long id;
     //uses primitive longs in its impl, so supposedly works quicker for money specifically
-    private FastMoney money;
+    FastMoney money;
 }
