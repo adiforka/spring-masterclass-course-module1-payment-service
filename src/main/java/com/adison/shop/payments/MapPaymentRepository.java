@@ -1,7 +1,6 @@
 package com.adison.shop.payments;
 
 import lombok.Setter;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
