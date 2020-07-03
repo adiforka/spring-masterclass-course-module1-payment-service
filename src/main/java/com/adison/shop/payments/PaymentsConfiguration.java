@@ -1,5 +1,6 @@
 package com.adison.shop.payments;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +20,9 @@ public class PaymentsConfiguration {
 
     @Bean
     public PaymentService fakePaymentService(PaymentIdGenerator paymentIdGenerator,
-                                             PaymentRepository paymentRepository) {
-        return new FakePaymentService(paymentIdGenerator, paymentRepository);
+                                             PaymentRepository paymentRepository,
+                                             ApplicationEventPublisher eventPublisher) {
+        return new FakePaymentService(paymentIdGenerator, paymentRepository, eventPublisher);
     }
 
     @Bean

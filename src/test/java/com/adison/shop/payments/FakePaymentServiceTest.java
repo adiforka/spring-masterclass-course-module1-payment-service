@@ -8,6 +8,7 @@ import org.mockito.AdditionalAnswers;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.HashMap;
 
@@ -29,11 +30,13 @@ public class FakePaymentServiceTest {
     private PaymentIdGenerator idGenerator;
     @Mock
     private PaymentRepository paymentRepository;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
     private Payment payment;
 
     @BeforeEach
     void setup() {
-        FakePaymentService service = new FakePaymentService(idGenerator, paymentRepository);
+        FakePaymentService service = new FakePaymentService(idGenerator, paymentRepository, eventPublisher);
         when(idGenerator.getNext()).thenReturn(PAYMENT_ID);
         when(paymentRepository.save(any(Payment.class))).then(returnsFirstArg());
         //the tested method is called here, unique call for every test case
@@ -68,5 +71,11 @@ public class FakePaymentServiceTest {
     @Test
     void shouldCallSavePassingInCreatedPayment() {
         verify(paymentRepository).save(null);
+    }
+
+    @DisplayName("should call event publisher publish event in process")
+    @Test
+    void shouldCallEventPublisher() {
+        verify(eventPublisher).publishEvent(any());
     }
 }
