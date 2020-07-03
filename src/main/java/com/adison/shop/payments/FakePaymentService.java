@@ -2,6 +2,8 @@ package com.adison.shop.payments;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -24,15 +26,5 @@ public class FakePaymentService implements PaymentService {
                 .status(PaymentStatus.STARTED)
                 .build();
         return paymentRepository.save(payment);
-    }
-
-    @PostConstruct
-    public void init() {
-        log.info("Payment service initialized");
-    }
-
-    @PreDestroy
-    public void destroy() {
-        log.info("Payment service going down");
     }
 }

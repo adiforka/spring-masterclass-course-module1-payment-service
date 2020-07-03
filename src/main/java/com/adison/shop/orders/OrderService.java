@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public Order add(Order order) {
         return orderRepository.save(order);

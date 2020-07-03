@@ -1,5 +1,6 @@
 package com.adison.shop.payments;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,12 +12,14 @@ public class IncrementalIdGeneratorTest {
 
     private final IncrementalPaymentIdGenerator generator = new IncrementalPaymentIdGenerator();
 
+    @DisplayName("Should generate valid id")
     @Test
     void shouldGenerateValidId() {
         String testId = generator.getNext();
         assertTrue(testId.matches(ID_FORMAT));
     }
 
+    @DisplayName("Should generate id incremented by one for consecutive calls to getNext()")
     @Test
     void shouldGenerateIdIncrementedByOneForConsecutiveCalls() {
         long testId1Value = Long.parseLong(generator.getNext());

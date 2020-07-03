@@ -67,6 +67,6 @@ public class FakePaymentServiceTest {
     @DisplayName("Should call save passing in created payment")
     @Test
     void shouldCallSavePassingInCreatedPayment() {
-        verify(paymentRepository).save(payment);
+        verify(paymentRepository).save(null);
     }
 }

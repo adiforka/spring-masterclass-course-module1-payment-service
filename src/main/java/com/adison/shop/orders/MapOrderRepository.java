@@ -1,5 +1,7 @@
 package com.adison.shop.orders;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

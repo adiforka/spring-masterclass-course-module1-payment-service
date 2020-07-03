@@ -18,7 +18,7 @@ public class LocalMoney {
         return FastMoney.zero(getCurrencyUnit());
     }
 
-    public static CurrencyUnit getCurrencyUnit() {
+    private static CurrencyUnit getCurrencyUnit() {
         var locale = Locale.getDefault();
         return Monetary.getCurrency(locale);
     }

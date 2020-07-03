@@ -1,13 +1,12 @@
 package com.adison.shop;
 
 import com.adison.shop.orders.Order;
-import com.adison.shop.orders.OrderService;
 import com.adison.shop.payments.LocalMoney;
-import com.adison.shop.payments.PaymentRequest;
 import com.adison.shop.products.Product;
 import com.adison.shop.products.ProductType;
 import lombok.extern.java.Log;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -23,19 +22,18 @@ public class Application {
 
     private static final Product BOOK_PRODUCT = Product.builder()
             .name("50 Shades of Gray")
-            .description("world-class cliterature")
+            .description("world-class literature")
             .productType(ProductType.BOOK)
             .price(LocalMoney.of(9.99))
             .build();
 
-
     private static final String BASE_PACKAGE = "com.adison.shop";
 
     public static void main(String[] args) {
-        try (AnnotationConfigApplicationContext applicationContext = new
-                AnnotationConfigApplicationContext(BASE_PACKAGE)) {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(BASE_PACKAGE);
 
-            var shopService = applicationContext.getBean(ShopService.class);
+        try (ctx) {
+            var shopService = ctx.getBean(ShopService.class);
 
             shopService.addProduct(VIDEO_PRODUCT);
             shopService.addProduct(BOOK_PRODUCT);
@@ -45,13 +43,7 @@ public class Application {
             //you give the order an id when you place it (the magic of the map repo)
             shopService.placeOrder(order);
             var payment = shopService.payForOder(order.getId());
-            log.info(payment.getId());
+            log.info(payment.toString());
         }
-
-
-        int a = 123;
-        int b = 32;
-        var totalPages = (int) Math.ceil((double) a / b);
-        System.out.println("totalPages = " + totalPages);
     }
 }

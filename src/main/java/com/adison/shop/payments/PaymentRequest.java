@@ -1,6 +1,5 @@
 package com.adison.shop.payments;
 
-//model classes to handle payments (#1)
 import lombok.Builder;
 import lombok.Value;
 import org.javamoney.moneta.FastMoney;
