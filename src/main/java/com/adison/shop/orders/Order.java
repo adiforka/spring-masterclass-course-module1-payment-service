@@ -9,6 +9,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.javamoney.moneta.FastMoney;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -17,8 +19,11 @@ import java.util.List;
 public class Order {
 
     private Long id;
+    @NotEmpty
     @NonNull
     private List<Product> products;
+    //normally validation only on top-object level. if you want nested objects (properties) validated, use @Valid
+    @Valid
     private Payment payment;
     //good spot to calc total price for the order
     public FastMoney getTotalPrice() {

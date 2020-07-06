@@ -18,7 +18,8 @@ public class ModelValidator {
     private final ValidatorService validatorService;
 
     //return type: any, method name: any, but arguments must be annotated with validate, whatever type they may be
-    @Before("execution(* *(@Validate(*)))")
+    //check this: without a space after "@Validate" it gives us a naming error
+    @Before("execution(* *(@Validate (*)))")
     public void validate(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Object[] args = joinPoint.getArgs();
