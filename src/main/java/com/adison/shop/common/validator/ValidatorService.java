@@ -22,6 +22,8 @@ public class ValidatorService {
                 throw exception.newInstance();
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 //this supposedly handles the exceptions above, which might occur when trying to create our exception instance
+                //cause maybe were not passed a type that extends exception at all. maybe that'd have to be validated.
+                //or maybe it's not worth it and if you don't get a neat exception type injected you yourself throw an IAE
                 throw new IllegalArgumentException();
             }
         }
