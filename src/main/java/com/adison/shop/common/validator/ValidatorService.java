@@ -15,7 +15,7 @@ public class ValidatorService {
 
     //generic, since we don't know what type we'll be validating or what exception we might throw
     public <O, E extends RuntimeException> void validate(O object, Class<E> exceptionType) throws E {
-        Set<ConstraintViolation<O>> violations = validator.validate(object);
+        var violations = validator.validate(object);
         if (!violations.isEmpty()) {
             try {
                 Constructor<E> exception = exceptionType.getDeclaredConstructor();

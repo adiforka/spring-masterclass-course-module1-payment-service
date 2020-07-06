@@ -31,7 +31,7 @@ public class ShopService {
         return orderService.add(order);
     }
 
-    public Payment payForOder(Long orderId) throws Exception {
+    public Payment payForOder(Long orderId) {
         var order = orderService.getById(orderId);
         var paymentRequest = PaymentRequest.builder()
                 .id(Long.valueOf(new IncrementalPaymentIdGenerator().getNext()))
