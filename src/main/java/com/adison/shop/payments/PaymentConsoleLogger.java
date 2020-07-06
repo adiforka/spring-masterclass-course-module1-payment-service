@@ -31,7 +31,7 @@ public class PaymentConsoleLogger implements Ordered {
 
     //run independently of the outcome of the core method
     @After(value = "logPayments()")
-    public void AfterPayment() {
+    public void afterPayment() {
         log.info("After payment");
     }
 
