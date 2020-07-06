@@ -25,7 +25,7 @@ public class PaymentConsoleLogger implements Ordered {
         log.info("New payment request: " + paymentRequest);
     }
 
-    //run independently of the outcome of the core metod
+    //run independently of the outcome of the core method
     @After(value = "@annotation(LogPayments)")
     public void AfterPayment() {
         log.info("After payment");

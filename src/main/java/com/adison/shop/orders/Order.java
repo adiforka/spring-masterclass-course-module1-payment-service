@@ -20,7 +20,6 @@ public class Order {
     @NonNull
     private List<Product> products;
     private Payment payment;
-
     //good spot to calc total price for the order
     public FastMoney getTotalPrice() {
         return products.stream()
