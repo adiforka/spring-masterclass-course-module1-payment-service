@@ -5,7 +5,6 @@ import lombok.extern.java.Log;
 import org.aspectj.lang.annotation.*;
 import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 
 import java.util.Locale;
 
@@ -20,23 +19,28 @@ public class PaymentConsoleLogger implements Ordered {
 
     private final MessageSource messageSource;
 
-    @Before(value = "@annotation(LogPayments) && args(paymentRequest)")
+    //pointcut == named designator
+    @Pointcut("@annotation(LogPayments)")
+    public void logPayments() {
+    }
+
+    @Before(value = "logPayments() && args(paymentRequest)")
     public void beforePayment(PaymentRequest paymentRequest) {
         log.info("New payment request: " + paymentRequest);
     }
 
     //run independently of the outcome of the core method
-    @After(value = "@annotation(LogPayments)")
+    @After(value = "logPayments()")
     public void AfterPayment() {
         log.info("After payment");
     }
 
-    @AfterThrowing(value = "@annotation(LogPayments)", throwing = "exception")
+    @AfterThrowing(value = "logPayments()", throwing = "exception")
     public void onException(Exception exception) {
         log.info("Payment exception: " + exception.getClass().getSimpleName());
     }
 
-    @AfterReturning(value = "@annotation(LogPayments)", returning = "payment")
+    @AfterReturning(value = "logPayments()", returning = "payment")
     public void log(Payment payment) {
         log.info(createLogEntry(payment));
     }
