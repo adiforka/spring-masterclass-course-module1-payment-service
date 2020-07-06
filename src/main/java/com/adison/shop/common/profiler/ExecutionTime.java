@@ -1,4 +1,4 @@
-package com.adison.shop.payments;
+package com.adison.shop.common.profiler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LogPayments {
-
+public @interface ExecutionTime {
 }

@@ -44,6 +44,8 @@ public class Application {
             shopService.placeOrder(order);
             var payment = shopService.payForOder(order.getId());
             log.info(payment.toString());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 }

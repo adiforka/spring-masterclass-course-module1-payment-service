@@ -1,5 +1,6 @@
 package com.adison.shop.payments;
 
+import com.adison.shop.common.profiler.ExecutionTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,9 +17,10 @@ public class FakePaymentService implements PaymentService {
     //pattern
     private final ApplicationEventPublisher eventPublisher;
 
+    @ExecutionTime
     @LogPayments
     @Override
-    public Payment process(PaymentRequest paymentRequest) {
+    public Payment process(PaymentRequest paymentRequest)  {
         var payment = Payment.builder()
                 .id(paymentIdGenerator.getNext())
                 .money(paymentRequest.getMoney())
