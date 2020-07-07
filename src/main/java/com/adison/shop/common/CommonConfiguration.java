@@ -1,6 +1,7 @@
 package com.adison.shop.common;
 
 import com.adison.shop.common.profiler.Profiler;
+import com.adison.shop.common.retry.RetryExecutor;
 import com.adison.shop.common.validator.ModelValidator;
 import com.adison.shop.common.validator.ValidatorService;
 import org.springframework.context.annotation.Bean;
@@ -31,5 +32,10 @@ public class CommonConfiguration {
     @Bean
     public ModelValidator modelValidator(ValidatorService validatorService) {
         return new ModelValidator(validatorService);
+    }
+
+    @Bean
+    public RetryExecutor retryExecutor() {
+        return new RetryExecutor();
     }
 }

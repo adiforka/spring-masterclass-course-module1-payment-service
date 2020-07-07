@@ -1,5 +1,6 @@
 package com.adison.shop;
 
+import com.adison.shop.common.retry.RetryExecutor;
 import com.adison.shop.orders.Order;
 import com.adison.shop.payments.LocalMoney;
 import com.adison.shop.products.Product;
@@ -45,6 +46,9 @@ public class Application {
             shopService.placeOrder(order);
             var payment = shopService.payForOder(order.getId());
             log.info(payment.toString());
+
+            var retryExecutor = new RetryExecutor();
+            retryExecutor.setAttempts(5);
         }
     }
 }
