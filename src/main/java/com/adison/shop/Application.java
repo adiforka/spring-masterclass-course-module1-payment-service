@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.Collections;
 import java.util.List;
 
 @Log
@@ -39,7 +40,7 @@ public class Application {
             shopService.addProduct(BOOK_PRODUCT);
             log.info(shopService.listProducts(0, 20).toString());
 
-            var order = new Order(List.of(VIDEO_PRODUCT, BOOK_PRODUCT));
+            var order = new Order(Collections.emptyList());
             //you give the order an id when you place it (the magic of the map repo)
             shopService.placeOrder(order);
             var payment = shopService.payForOder(order.getId());
