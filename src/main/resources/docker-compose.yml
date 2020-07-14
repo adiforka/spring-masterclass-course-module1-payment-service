@@ -1,0 +1,29 @@
+version: '3'
+services:
+  database:
+    image: postgres:11.2-alpine
+    ports:
+#maps postgres' default exposed port to same port on localhost.
+#so when we try to hook up to localhost:5432 with our java app, we are actually connecting to postgres
+#running on docker's postgres container
+      - "5432:5432"
+#env vars
+    environment:
+      - POSTGRES_DB=shop
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - PGDATA=/var/lib/postgresql/data/application
+#when docker containers are shut down they cease to exist. if we want our database's state to persist, we map a volume
+#of space on our local drive to the container. if we modify db content at the container level, it modifies the
+#volume on local drive where the data is stored. if you modify locally, the container postgres' instance's state
+#is modified too.
+    volumes:
+    - ../../../data:/var/lib/postgresql/data/application
+  pgadmin:
+    image: dpage/pgadmin4:4
+    ports:
+      #mapping port 80 exposed by the docker container to localhost:8000
+      - "8000:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=adiforka@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin

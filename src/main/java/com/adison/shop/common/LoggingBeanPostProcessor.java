@@ -3,10 +3,8 @@ package com.adison.shop.common;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.stereotype.Component;
 
 @Log
-@Component
 public class LoggingBeanPostProcessor implements BeanPostProcessor {
 
     @Override

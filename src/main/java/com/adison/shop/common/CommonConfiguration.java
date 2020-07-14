@@ -1,9 +1,10 @@
 package com.adison.shop.common;
 
 import com.adison.shop.common.profiler.Profiler;
-import com.adison.shop.common.retry.RetryExecutor;
+import com.adison.shop.common.retry.MethodExecutor;
 import com.adison.shop.common.validator.ModelValidator;
 import com.adison.shop.common.validator.ValidatorService;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -35,7 +36,14 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public RetryExecutor retryExecutor() {
-        return new RetryExecutor();
+    public BeanPostProcessor beanPostProcessor() {
+        return new LoggingBeanPostProcessor();
+    }
+
+    @Bean
+    public MethodExecutor methodExecutor() {
+        var methodExecutor = new MethodExecutor();
+        methodExecutor.setAttempts(5);
+        return methodExecutor;
     }
 }

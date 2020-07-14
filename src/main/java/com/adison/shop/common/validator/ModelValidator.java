@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Aspect
 @RequiredArgsConstructor
@@ -18,7 +18,11 @@ public class ModelValidator {
 
     private final ValidatorService validatorService;
 
-    @Before("execution(* *(@Validate (*)))")
+    @Pointcut("execution(* * (@Validate (*)))")
+    public void applyValidationAspect() { }
+
+    @Before("applyValidationAspect()")
+    //@Before("execution(* *(@Validate (*)))")
     public void validate(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Object[] args = joinPoint.getArgs();
@@ -27,16 +31,17 @@ public class ModelValidator {
     }
 
     private void validate(MethodSignature methodSignature, Object argument, int index) {
-        Annotation[] annotations = getAnnotations(methodSignature, index);
-        Optional<Validate> optionalValidateAnno = getValidateAnnotation(annotations);
+        Annotation[] perArgAnnotations = getPerArgAnnotations(methodSignature, index);
+        Optional<Validate> optionalValidateAnno = getThisArgsValidateAnnotations(perArgAnnotations);
         optionalValidateAnno.ifPresent(validate -> validatorService.validate(argument, validate.exception()));
     }
 
-    private Annotation[] getAnnotations(MethodSignature methodSignature, int argIndex) {
+    private Annotation[] getPerArgAnnotations(MethodSignature methodSignature, int argIndex) {
         return methodSignature.getMethod().getParameterAnnotations()[argIndex];
     }
 
-    private Optional<Validate> getValidateAnnotation(Annotation[] annotations) {
+    private Optional<Validate> getThisArgsValidateAnnotations(Annotation[] annotations) {
+        //is this particular argument of the method targeted preliminarily for validation annotated with @Validate?
         return Arrays.stream(annotations)
                 .filter(annotation -> annotation instanceof Validate)
                 .map(annotation -> (Validate) annotation)

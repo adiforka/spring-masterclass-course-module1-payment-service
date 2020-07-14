@@ -3,7 +3,6 @@ package com.adison.shop.payments;
 import com.adison.shop.common.profiler.ExecutionTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.Instant;
