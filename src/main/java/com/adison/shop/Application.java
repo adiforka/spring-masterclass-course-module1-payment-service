@@ -5,7 +5,6 @@ import com.adison.shop.payments.LocalMoney;
 import com.adison.shop.products.Product;
 import com.adison.shop.products.ProductType;
 import lombok.extern.java.Log;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
@@ -16,14 +15,14 @@ public class Application {
     private static final Product VIDEO_PRODUCT = Product.builder()
             .name("Rambo: First Blood")
             .description("80s action")
-            .productType(ProductType.VIDEO)
+            .type(ProductType.VIDEO)
             .price(LocalMoney.of(19.99))
             .build();
 
     private static final Product BOOK_PRODUCT = Product.builder()
             .name("50 Shades of Gray")
             .description("world-class literature")
-            .productType(ProductType.BOOK)
+            .type(ProductType.BOOK)
             .price(LocalMoney.of(9.99))
             .build();
 
