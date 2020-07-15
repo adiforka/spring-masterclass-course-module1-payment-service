@@ -35,7 +35,7 @@ public class CommonConfiguration {
         return new ModelValidator(validatorService);
     }
 
-    @Bean
+    //@Bean
     public BeanPostProcessor beanPostProcessor() {
         return new LoggingBeanPostProcessor();
     }

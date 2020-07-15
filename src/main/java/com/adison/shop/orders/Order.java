@@ -23,8 +23,6 @@ public class Order {
     @Id
     private Long id;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
     @NotEmpty
     @NonNull
     private List<Product> products;
