@@ -11,6 +11,11 @@ import com.adison.shop.products.Product;
 import com.adison.shop.products.ProductService;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
+
+//for every method in this class, a transactional context aspect is run over it. works also for all methods used
+//for delegation for methods in this class. if they throw an Exception, methods here will be rolled back
+@Transactional
 //higher-level service that uses product, payment, order services
 @RequiredArgsConstructor
 public class ShopService {

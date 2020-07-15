@@ -21,13 +21,14 @@ import java.util.List;
 public class Order {
 
     @Id
+    @GeneratedValue
     private Long id;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @NotEmpty
     @NonNull
     private List<Product> products;
-    //normally validation only on top-object level. if you want nested objects (properties) validated, use @Valid
     @OneToOne(cascade = CascadeType.PERSIST)
+    //normally validation only on top-object level. if you want nested objects (properties) validated, use @Valid
     @Valid
     private Payment payment;
     private Instant timestamp;

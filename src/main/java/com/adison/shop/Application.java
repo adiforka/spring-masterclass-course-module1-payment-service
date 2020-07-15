@@ -39,7 +39,6 @@ public class Application {
             log.info(shopService.listProducts(0, 20).toString());
 
             var order = new Order(List.of(VIDEO_PRODUCT, BOOK_PRODUCT));
-            //you give the order an id when you place it (the magic of the map repo)
             shopService.placeOrder(order);
             var payment = shopService.payForOder(order.getId());
             log.info(payment.toString());

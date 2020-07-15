@@ -8,6 +8,8 @@ import org.javamoney.moneta.FastMoney;
 
 import javax.persistence.*;
 
+//for named queries that go through some
+@NamedQuery(name = Product.SELECT_PRODUCTS, query = "select p from Product p")
 @TypeDef(name = "fastMoney", typeClass = FastMoneyUserType.class, defaultForType = FastMoney.class)
 @Table(name = "products", indexes = @Index(name = "product_type", columnList = "type"))
 @Entity
@@ -17,6 +19,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 public class Product {
+
+    //to avoid typos with named queries, store query name in a constant
+    public static final String SELECT_PRODUCTS = "selectProducts";
 
     @Id
     @GeneratedValue
