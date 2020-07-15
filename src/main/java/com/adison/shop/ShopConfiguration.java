@@ -28,7 +28,7 @@ import java.util.Properties;
 
 //classpath tells Spring to use an appropriate Resource interface impl here to be able to read stuff from a file in the
 //classpath. add properties as deep as to the VM itself--
-@PropertySource("classpath:jdbc.properties")
+//@PropertySource("classpath:jdbc.properties")
 //switches AspectJ into the Spring config
 @EnableAspectJAutoProxy
 //enable transactions to make use of transaction manager
@@ -53,17 +53,24 @@ public class ShopConfiguration {
         return messageSource;
     }
 
+    @Bean
+    public PropertiesFactoryBean jdbcFactoryBean() {
+        PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+        factoryBean.setLocation(new ClassPathResource("jdbc.properties"));
+        return factoryBean;
+    }
+
     //configuring dataSource with data from jdbc.properties
     @Bean
-    public DataSource dataSource(Environment environment) {
+    public DataSource dataSource(Properties jdbcFactoryBean) {
         //DriverManagerDataSource good for dev env, but does not allow db connection pooling (important for efficiency)
         //so we use HikariCP
         HikariDataSource dataSource = new HikariDataSource();
         //getting properties from external file (env and stuff) through an object provided by Spring that encapsulates them
-        dataSource.setUsername(environment.getProperty("database.username"));
-        dataSource.setPassword(environment.getProperty("database.password"));
-        dataSource.setJdbcUrl(environment.getProperty("database.url"));
-        dataSource.setDriverClassName(environment.getProperty("database.driver"));
+        dataSource.setUsername(jdbcFactoryBean.getProperty("database.username"));
+        dataSource.setPassword(jdbcFactoryBean.getProperty("database.password"));
+        dataSource.setJdbcUrl(jdbcFactoryBean.getProperty("database.url"));
+        dataSource.setDriverClassName(jdbcFactoryBean.getProperty("database.driver"));
         return dataSource;
     }
 
