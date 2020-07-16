@@ -8,6 +8,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -27,6 +30,7 @@ import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+@EnableCaching
 //when migrating from JPA (Hibernate) to Spring Data, this with base packages to scan for repository interfaces to implement
 @EnableJpaRepositories(basePackages = "com.adison.shop")
 @PropertySource("classpath:jdbc.properties")
@@ -87,5 +91,10 @@ public class ShopConfiguration {
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
 
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("products");
     }
 }

@@ -29,6 +29,13 @@ public class Application {
             .price(LocalMoney.of(9.99))
             .build();
 
+    private static final Product VIDEO_PRODUCT2 = Product.builder()
+            .name("Blackhawk Down")
+            .description("Tadadadadadda in the Middle East")
+            .type(ProductType.VIDEO)
+            .price(LocalMoney.of(9.99))
+            .build();
+
     private static final String BASE_PACKAGE = "com.adison.shop";
 
     public static void main(String[] args) {
@@ -46,12 +53,14 @@ public class Application {
             var payment = shopService.payForOrder(order.getId());
             log.info(payment.toString());
 
-            var productRepo = ctx.getBean(ProductRepository.class);
-            List<Product> videoProducts = productRepo.findProductByType(ProductType.VIDEO);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!" + videoProducts);
+            System.out.println("---------------------");
 
-            Optional<Product> product = productRepo.findByDescription("world-class literature");
-            product.ifPresent(System.out::println);
+            log.info(shopService.getByName("Blood").toString());
+            log.info(shopService.getByName("Blood").toString());
+
+            shopService.addProduct(VIDEO_PRODUCT2);
+
+            log.info(shopService.getByName("Blackhawk").toString());
         }
     }
 }

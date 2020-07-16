@@ -12,6 +12,7 @@ import com.adison.shop.products.ProductService;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 //for every method in this class, a transactional context aspect is run over it. works also for all methods used
 //for delegation for methods in this class. if they throw an Exception, methods here will be rolled back
@@ -26,6 +27,10 @@ public class ShopService {
 
     public Product addProduct(Product product) {
         return productService.add(product);
+    }
+
+    public List<Product> getByName(String name) {
+        return productService.getByName(name);
     }
 
     public PagedResult<Product> listProducts(int pageNumber, int pageSize) {
