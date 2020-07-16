@@ -16,8 +16,8 @@ public class Profiler {
     //designator types: annotation, bean, execution (here interested in methods returning a particular type.
     // specifically, for execution designators: full package name of returned type, full package name of the wrapped
     // method, full types of arguments passed to the method. * wildcard or .. wildcard for args)
-    @Around("execution(* com.adison.shop.payments.FakePaymentService.process(..))")
-    //@Around("bean(fakePaymentService)")
+    @Around("execution(* com.adison.shop.payments.BasicPaymentService.process(..))")
+    //@Around("bean(basicPaymentService)")
     //@Around("@annotation(ExecutionTime)")
     //proceeding join point is distinctive of the Around advice type. other types have joinPoints, but not
     //proceeding. this one has a proceed() method, which hands over execution to the wrapped method.

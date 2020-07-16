@@ -4,13 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
-
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FakePaymentServiceTest {
+public class BasicPaymentServiceTest {
 
     private static final String PAYMENT_ID = "1";
     private static final PaymentRequest PAYMENT_REQUEST = PaymentRequest.builder()
@@ -36,7 +32,7 @@ public class FakePaymentServiceTest {
 
     @BeforeEach
     void setup() {
-        FakePaymentService service = new FakePaymentService(idGenerator, paymentRepository, eventPublisher);
+        BasicPaymentService service = new BasicPaymentService(idGenerator, paymentRepository, eventPublisher);
         when(idGenerator.getNext()).thenReturn(PAYMENT_ID);
         when(paymentRepository.save(any(Payment.class))).then(returnsFirstArg());
         //the tested method is called here, unique call for every test case

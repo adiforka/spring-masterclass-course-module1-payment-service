@@ -10,7 +10,7 @@ import java.time.Instant;
 
 @Log
 @RequiredArgsConstructor
-public class FakePaymentService implements PaymentService {
+public class BasicPaymentService implements PaymentService {
 
     private final PaymentIdGenerator paymentIdGenerator;
     private final PaymentRepository paymentRepository;

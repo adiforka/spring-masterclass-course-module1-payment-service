@@ -1,12 +1,9 @@
 package com.adison.shop.payments;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class PaymentConfiguration {
@@ -25,10 +22,10 @@ public class PaymentConfiguration {
     //implementation and automatically treat it as a bean
 
     @Bean
-    public PaymentService fakePaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
+    public PaymentService basicPaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
                                              PaymentRepository paymentRepository,
                                              ApplicationEventPublisher eventPublisher) {
-        return new FakePaymentService(uuidPaymentIdGenerator, paymentRepository, eventPublisher);
+        return new BasicPaymentService(uuidPaymentIdGenerator, paymentRepository, eventPublisher);
     }
 
     @Bean

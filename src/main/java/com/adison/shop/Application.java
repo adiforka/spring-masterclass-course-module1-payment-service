@@ -7,8 +7,10 @@ import com.adison.shop.products.ProductRepository;
 import com.adison.shop.products.ProductType;
 import lombok.extern.java.Log;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log
 public class Application {
@@ -48,9 +50,8 @@ public class Application {
             List<Product> videoProducts = productRepo.findProductByType(ProductType.VIDEO);
             System.out.println("!!!!!!!!!!!!!!!!!!!!" + videoProducts);
 
-
-
-            
+            Optional<Product> product = productRepo.findByDescription("world-class literature");
+            product.ifPresent(System.out::println);
         }
     }
 }

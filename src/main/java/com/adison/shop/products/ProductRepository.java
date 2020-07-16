@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
-public interface ProductRepository extends JpaRepository<Product, Long> {
+//if we make our base ProductRepository extend this custom interface in addition to the JpaProductRepository,
+// it'll have access to both interfaces' methods
+public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
 
     //cool--returns all product objects whose name contains the argument string (SD's DSL)
     //good for simple queries
