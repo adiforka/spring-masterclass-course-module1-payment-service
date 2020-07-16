@@ -9,6 +9,8 @@ import com.adison.shop.payments.PaymentRequest;
 import com.adison.shop.payments.PaymentService;
 import com.adison.shop.products.Product;
 import com.adison.shop.products.ProductService;
+import com.adison.shop.users.User;
+import com.adison.shop.users.UserService;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
@@ -24,17 +26,30 @@ public class ShopService {
     private final OrderService orderService;
     private final ProductService productService;
     private final PaymentService paymentService;
+    private final UserService userService;
 
     public Product addProduct(Product product) {
         return productService.add(product);
     }
 
-    public List<Product> getByName(String name) {
+    public List<Product> getProductByName(String name) {
         return productService.getByName(name);
     }
 
     public PagedResult<Product> listProducts(int pageNumber, int pageSize) {
         return productService.getAll(pageNumber, pageSize);
+    }
+
+    public User addUser(User user) {
+        return userService.add(user);
+    }
+
+    public User getUserById(Long id) {
+        return userService.getById(id);
+    }
+
+    public List<User> getUserByName(String firstName, String lastName) {
+        return userService.getByName(firstName, lastName);
     }
 
     public Order placeOrder(Order order) {
@@ -53,8 +68,5 @@ public class ShopService {
         orderService.update(order);
         return payment;
     }
-
-
-
 
 }

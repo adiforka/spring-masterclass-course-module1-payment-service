@@ -5,6 +5,7 @@ import com.adison.shop.payments.LocalMoney;
 import com.adison.shop.products.Product;
 import com.adison.shop.products.ProductRepository;
 import com.adison.shop.products.ProductType;
+import com.adison.shop.users.User;
 import lombok.extern.java.Log;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.w3c.dom.ls.LSOutput;
@@ -29,11 +30,14 @@ public class Application {
             .price(LocalMoney.of(9.99))
             .build();
 
-    private static final Product VIDEO_PRODUCT2 = Product.builder()
-            .name("Blackhawk Down")
-            .description("Tadadadadadda in the Middle East")
-            .type(ProductType.VIDEO)
-            .price(LocalMoney.of(9.99))
+    private static final User USER1 = User.builder()
+            .firstName("Jimmy")
+            .lastName("Kimmel")
+            .build();
+
+    private static final User USER2 = User.builder()
+            .firstName("Charlie")
+            .lastName("Therone")
             .build();
 
     private static final String BASE_PACKAGE = "com.adison.shop";
@@ -55,12 +59,13 @@ public class Application {
 
             System.out.println("---------------------");
 
-            log.info(shopService.getByName("Blood").toString());
-            log.info(shopService.getByName("Blood").toString());
+            shopService.addUser(USER2);
 
-            shopService.addProduct(VIDEO_PRODUCT2);
+            log.info(shopService.getUserByName("Charlie", "Therone").toString());
+            log.info(shopService.getUserByName("Charlie", "Therone").toString());
 
-            log.info(shopService.getByName("Blackhawk").toString());
+            shopService.addUser(USER1);
+            log.info(shopService.getUserByName("Charlie", "Therone").toString());
         }
     }
 }

@@ -9,7 +9,7 @@ import org.javamoney.moneta.FastMoney;
 import javax.persistence.*;
 
 //for named queries that go through some
-@NamedQuery(name = Product.SELECT_PRODUCTS, query = "select p from Product p")
+@NamedQuery(name = "selectProducts", query = "select p from Product p")
 @TypeDef(name = "fastMoney", typeClass = FastMoneyUserType.class, defaultForType = FastMoney.class)
 @Table(name = "products", indexes = @Index(name = "product_type", columnList = "type"))
 @Entity

@@ -1,6 +1,7 @@
 package com.adison.shop.products;
 
 import lombok.Setter;
+import org.hibernate.Session;
 import org.springframework.data.repository.query.Param;
 
 import javax.persistence.*;
