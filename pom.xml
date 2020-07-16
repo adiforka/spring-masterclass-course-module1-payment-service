@@ -41,6 +41,11 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.3.0.RELEASE</version>
+        </dependency>
+        <dependency>
             <!--datasource with connection pooling-->
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>

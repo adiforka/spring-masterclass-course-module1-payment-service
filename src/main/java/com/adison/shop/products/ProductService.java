@@ -3,6 +3,8 @@ package com.adison.shop.products;
 import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.retry.Retry;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @RequiredArgsConstructor
 public class ProductService {
@@ -17,6 +19,9 @@ public class ProductService {
     }
 
     public PagedResult<Product> getAll(int pageNumber, int pageSize) {
-        return productRepository.findAll(pageNumber, pageSize);
+        Page<Product> productPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        //repackage to out own PagedResult type. good practice in case of future migration from SpringData -- we're
+        //not relying directly on SD type result return
+        return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
     }
 }

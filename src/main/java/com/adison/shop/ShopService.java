@@ -36,7 +36,7 @@ public class ShopService {
         return orderService.add(order);
     }
 
-    public Payment payForOder(Long orderId) {
+    public Payment payForOrder(Long orderId) {
         var order = orderService.getById(orderId);
         var paymentRequest = PaymentRequest.builder()
                 .id(Long.valueOf(new IncrementalPaymentIdGenerator().getNext()))

@@ -1,10 +1,19 @@
 package com.adison.shop.products;
 
-import com.adison.shop.common.PagedResult;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface ProductRepository {
+import java.util.List;
 
-    Product save(Product product);
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    PagedResult<Product> findAll(int pageNumber, int pageSize);
+    //cool--returns all product objects whose name contains the argument string (SD's DSL)
+    //good for simple queries
+    List<Product> findByNameContaining(String id);
+
+    //for more complex queries, use @Query with JPQL. this adds query validation too from SD aww <3
+    @Query("select p from Product p where p.type = :type")
+    List<Product> findProductByType(@Param("type") ProductType type);
+
 }

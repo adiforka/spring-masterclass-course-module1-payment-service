@@ -23,7 +23,7 @@ public class Order {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @NotEmpty
     @NonNull
     private List<Product> products;
@@ -41,5 +41,4 @@ public class Order {
                 //actually there already is a zero method in the FM API but whatever
                 .reduce(LocalMoney.zero(), FastMoney::add);
     }
-
 }

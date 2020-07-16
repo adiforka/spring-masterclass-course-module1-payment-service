@@ -17,26 +17,18 @@ public class PaymentConfiguration {
     }
 
     @Bean
-    public PaymentRepository mapPaymentRepository() {
-        return new MapPaymentRepository();
+    public UUIDPaymentIdGenerator uuidPaymentIdGenerator() {
+        return new UUIDPaymentIdGenerator();
     }
 
-    @Bean
-    public PaymentRepository hibernatePaymentRepository(SessionFactory sessionFactory) {
-        return new HibernatePaymentRepository(sessionFactory);
-    }
+    //removing all the beans for repositories that implemented PaymentRepository -- Spring Data will generate an
+    //implementation and automatically treat it as a bean
 
     @Bean
-    public PaymentRepository jpaPaymentRepository() {
-        return new JpaPaymentRepository();
-    }
-
-    @Bean
-    public PaymentService fakePaymentService(PaymentIdGenerator paymentIdGenerator,
-                                             //matching impl for inj by name of method returning it
-                                             PaymentRepository jpaPaymentRepository,
+    public PaymentService fakePaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
+                                             PaymentRepository paymentRepository,
                                              ApplicationEventPublisher eventPublisher) {
-        return new FakePaymentService(paymentIdGenerator, jpaPaymentRepository, eventPublisher);
+        return new FakePaymentService(uuidPaymentIdGenerator, paymentRepository, eventPublisher);
     }
 
     @Bean

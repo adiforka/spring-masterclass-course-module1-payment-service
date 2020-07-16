@@ -3,6 +3,7 @@ package com.adison.shop;
 import com.adison.shop.orders.Order;
 import com.adison.shop.payments.LocalMoney;
 import com.adison.shop.products.Product;
+import com.adison.shop.products.ProductRepository;
 import com.adison.shop.products.ProductType;
 import lombok.extern.java.Log;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -40,8 +41,14 @@ public class Application {
 
             var order = new Order(List.of(VIDEO_PRODUCT, BOOK_PRODUCT));
             shopService.placeOrder(order);
-            var payment = shopService.payForOder(order.getId());
+            var payment = shopService.payForOrder(order.getId());
             log.info(payment.toString());
+
+            var productRepo = ctx.getBean(ProductRepository.class);
+            List<Product> videoProducts = productRepo.findProductByType(ProductType.VIDEO);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!" + videoProducts);
+
+
 
             
         }

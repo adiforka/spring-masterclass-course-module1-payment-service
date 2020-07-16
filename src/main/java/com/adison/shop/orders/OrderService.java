@@ -19,7 +19,8 @@ public class OrderService {
     }
 
     public void update(Order order) {
-        orderRepository.update(order);
+        //JpaRepository in SD uses save to update rows in db if an element already exists
+        orderRepository.save(order);
     }
 
 }
