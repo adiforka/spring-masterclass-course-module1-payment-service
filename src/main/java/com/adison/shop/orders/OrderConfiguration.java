@@ -18,7 +18,12 @@ public class OrderConfiguration {
     }
 
     @Bean
-    public OrderService orderService(OrderRepository hibernateOrderRepository) {
-        return new OrderService(hibernateOrderRepository);
+    public OrderRepository jpaOrderRepository() {
+        return new JpaOrderRepository();
+    }
+
+    @Bean
+    public OrderService orderService(OrderRepository jpaOrderRepository) {
+        return new OrderService(jpaOrderRepository);
     }
 }

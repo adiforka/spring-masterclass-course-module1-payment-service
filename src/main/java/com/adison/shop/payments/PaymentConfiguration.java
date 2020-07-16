@@ -27,11 +27,16 @@ public class PaymentConfiguration {
     }
 
     @Bean
+    public PaymentRepository jpaPaymentRepository() {
+        return new JpaPaymentRepository();
+    }
+
+    @Bean
     public PaymentService fakePaymentService(PaymentIdGenerator paymentIdGenerator,
                                              //matching impl for inj by name of method returning it
-                                             PaymentRepository hibernatePaymentRepository,
+                                             PaymentRepository jpaPaymentRepository,
                                              ApplicationEventPublisher eventPublisher) {
-        return new FakePaymentService(paymentIdGenerator, hibernatePaymentRepository, eventPublisher);
+        return new FakePaymentService(paymentIdGenerator, jpaPaymentRepository, eventPublisher);
     }
 
     @Bean

@@ -13,12 +13,17 @@ public class ProductConfiguration {
     }
 
     @Bean
-    public HibernateProductRepository hibernateProductRepository(SessionFactory sessionfactory) {
+    public ProductRepository hibernateProductRepository(SessionFactory sessionfactory) {
         return new HibernateProductRepository(sessionfactory);
     }
 
     @Bean
-    public ProductService productService(ProductRepository hibernateProductRepository) {
-        return new ProductService(hibernateProductRepository);
+    public ProductRepository jpaProductRepository() {
+        return new JpaProductRepository();
+    }
+
+    @Bean
+    public ProductService productService(ProductRepository jpaProductRepository) {
+        return new ProductService(jpaProductRepository);
     }
 }

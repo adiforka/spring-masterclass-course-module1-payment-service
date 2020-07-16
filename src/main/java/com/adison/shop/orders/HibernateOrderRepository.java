@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class HibernateOrderRepository implements OrderRepository{
+public class HibernateOrderRepository implements OrderRepository {
 
     private final SessionFactory sessionFactory;
 
@@ -22,7 +22,7 @@ public class HibernateOrderRepository implements OrderRepository{
     @Override
     public Optional<Order> findById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Order order = session.find(Order.class,id);
+        Order order = session.find(Order.class, id);
         return Optional.ofNullable(order);
     }
 

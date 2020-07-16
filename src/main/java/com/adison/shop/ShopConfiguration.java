@@ -5,6 +5,7 @@ import com.adison.shop.payments.PaymentService;
 import com.adison.shop.products.ProductService;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -14,14 +15,15 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.orm.hibernate5.SessionFactoryUtils;
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
@@ -74,26 +76,28 @@ public class ShopConfiguration {
         return dataSource;
     }
 
-    //configuring hibernate with data from hibernate.properties file
+    //configuring hibernate with data from jpa.properties file
     @Bean
-    public PropertiesFactoryBean hibernateProperties() {
+    public PropertiesFactoryBean jpaProperties() {
         PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
-        factoryBean.setLocation(new ClassPathResource("hibernate.properties"));
+        factoryBean.setLocation(new ClassPathResource("jpa.properties"));
         return factoryBean;
     }
 
     @Bean //mind the properties qualifier-by-name
-    public LocalSessionFactoryBean sessionFactory(DataSource dataSource, Properties hibernateProperties) {
-        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
+    public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource, Properties jpaProperties) {
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setHibernateProperties(hibernateProperties);
+        factoryBean.setJpaProperties(jpaProperties);
         factoryBean.setPackagesToScan("com.adison.shop");
+        //going a level up from Hibernate to Jpa and setting Hibernate here as a persistence provider
+        factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         return factoryBean;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(SessionFactory sessionFactory) {
-        return new HibernateTransactionManager(sessionFactory);
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
 
     }
 }
