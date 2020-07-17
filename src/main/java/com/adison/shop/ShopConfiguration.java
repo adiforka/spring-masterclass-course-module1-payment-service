@@ -61,7 +61,7 @@ public class ShopConfiguration {
     @Bean
     public DataSource dataSource(Environment env) {
         //DriverManagerDataSource good for dev env, but does not allow db connection pooling (important for efficiency)
-        //so we use HikariCP
+        //so we use HikariCP--
         HikariDataSource dataSource = new HikariDataSource();
         //getting properties from external file (env and stuff) through an object provided by Spring that encapsulates them
         dataSource.setUsername(env.getProperty("database.username"));
