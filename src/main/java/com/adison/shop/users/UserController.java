@@ -1,22 +1,32 @@
 package com.adison.shop.users;
 
+import com.adison.shop.common.UriBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-//well, do not put business logic in the controller layer. controllers are just traffic cops--
+import java.net.URI;
+
+@RequestMapping("api/users")
 @Controller
-//do not do a full cycle of request handling, because we don't have a view layer here.
-//instead, return an object in the body of the response
 @ResponseBody
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private UriBuilder uriBuilder;
 
-    @GetMapping(value = "hello")
-    public String sayHello() {
-        return "Hello";
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/")
+    //bad practice to pass User directly to the controller (client should not know)--being iterative here
+    //return the created location's URI to the client. use helper class to add ID to the URI location.
+    //@RequestBody lets us get the represented object's state into our object to be handled by the controller method
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        Long userId = userService.add(user).getId();
+        URI locationUri = uriBuilder.requestUriWithId(userId);
+        return ResponseEntity.created(locationUri).build();
     }
 }
