@@ -6,11 +6,13 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 
 @Log
+@Transactional
 @RequiredArgsConstructor
-public class BasicPaymentService implements PaymentService {
+public class BasicPaymentService {
 
     private final PaymentIdGenerator paymentIdGenerator;
     private final PaymentRepository paymentRepository;
@@ -20,7 +22,6 @@ public class BasicPaymentService implements PaymentService {
 
     @ExecutionTime
     @LogPayments
-    @Override
     public Payment process(PaymentRequest paymentRequest)  {
         var payment = Payment.builder()
                 .id(paymentIdGenerator.getNext())

@@ -9,9 +9,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Log
+@Transactional
 @RequiredArgsConstructor
 public class ProductService {
 

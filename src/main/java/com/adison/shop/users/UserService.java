@@ -6,7 +6,10 @@ import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import javax.transaction.Transactional;
+
 @Log
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
 

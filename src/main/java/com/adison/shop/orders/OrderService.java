@@ -3,6 +3,9 @@ package com.adison.shop.orders;
 import com.adison.shop.common.validator.Validate;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @RequiredArgsConstructor
 public class OrderService {
 
