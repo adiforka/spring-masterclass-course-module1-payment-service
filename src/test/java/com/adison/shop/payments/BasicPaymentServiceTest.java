@@ -66,7 +66,7 @@ public class BasicPaymentServiceTest {
     @DisplayName("Should call save passing in created payment")
     @Test
     void shouldCallSavePassingInCreatedPayment() {
-        verify(paymentRepository).save(null);
+        verify(paymentRepository).save(any());
     }
 
     @DisplayName("should call event publisher publish event in process")
