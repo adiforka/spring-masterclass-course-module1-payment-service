@@ -11,16 +11,14 @@ import java.net.URI;
 @RequestMapping("api/users")
 @Controller
 @ResponseBody
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private UriBuilder uriBuilder;
+    private final UriBuilder uriBuilder;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
-    @PostMapping("/")
+    @PostMapping
     //bad practice to pass User directly to the controller (client should not know)--being iterative here
     //return the created location's URI to the client. use helper class to add ID to the URI location.
     //@RequestBody lets us get the represented object's state into our object to be handled by the controller method
@@ -28,5 +26,13 @@ public class UserController {
         Long userId = userService.add(user).getId();
         URI locationUri = uriBuilder.requestUriWithId(userId);
         return ResponseEntity.created(locationUri).build();
+    }
+
+    @GetMapping("{id}")
+    //instead of returning a response entity with a status OK on it, we could return a User and Spring would take that as
+    //an OK
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.getById(id);
+        return ResponseEntity.ok(user);
     }
 }

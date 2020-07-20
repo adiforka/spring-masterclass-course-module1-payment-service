@@ -46,4 +46,9 @@ public class CommonConfiguration {
         methodExecutor.setAttempts(5);
         return methodExecutor;
     }
+
+    @Bean
+    public UriBuilder uriBuilder() {
+        return new UriBuilder();
+    }
 }
