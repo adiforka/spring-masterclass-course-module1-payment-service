@@ -1,10 +1,10 @@
 package com.adison.shop.users;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findByFirstNameAndLastName(String firstName, String lastName);
+    Page<User> findByLastNameContaining(String lastNameFragment, PageRequest pageRequest);
 }

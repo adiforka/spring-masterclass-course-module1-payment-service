@@ -3,6 +3,7 @@ package com.adison.shop.orders;
 import com.adison.shop.payments.LocalMoney;
 import com.adison.shop.payments.Payment;
 import com.adison.shop.products.Product;
+import com.adison.shop.users.User;
 import lombok.*;
 import org.javamoney.moneta.FastMoney;
 
@@ -32,7 +33,6 @@ public class Order {
     @Valid
     private Payment payment;
     private Instant timestamp;
-
 
     //good spot to calc total price for the order
     public FastMoney getTotalPrice() {

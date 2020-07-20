@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Table(name = "users")
+@Table(name = "users", indexes = @Index(name = "email", columnList = "email"))
 @Entity
 @Data
 @EqualsAndHashCode(exclude = "id")
@@ -18,12 +18,11 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_orders", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Order> orders;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
 }

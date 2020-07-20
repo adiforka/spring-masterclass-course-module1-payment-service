@@ -43,9 +43,8 @@ public class ShopConfiguration {
     @Bean
     public ShopService shopService(OrderService orderService,
                                    ProductService productService,
-                                   PaymentService paymentService,
-                                   UserService userService) {
-        return new ShopService(orderService, productService, paymentService, userService);
+                                   PaymentService paymentService) {
+        return new ShopService(orderService, productService, paymentService);
     }
 
     //configuration for internationalization--adding a message source component to Spring and configuring it

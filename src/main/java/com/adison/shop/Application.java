@@ -30,16 +30,6 @@ public class Application {
             .price(LocalMoney.of(9.99))
             .build();
 
-    private static final User USER1 = User.builder()
-            .firstName("Jimmy")
-            .lastName("Kimmel")
-            .build();
-
-    private static final User USER2 = User.builder()
-            .firstName("Charlie")
-            .lastName("Therone")
-            .build();
-
     private static final String BASE_PACKAGE = "com.adison.shop";
 
     public static void main(String[] args) {
@@ -57,15 +47,6 @@ public class Application {
             var payment = shopService.payForOrder(order.getId());
             log.info(payment.toString());
 
-            System.out.println("---------------------");
-
-            shopService.addUser(USER2);
-
-            log.info(shopService.getUserByName("Charlie", "Therone").toString());
-            log.info(shopService.getUserByName("Charlie", "Therone").toString());
-
-            shopService.addUser(USER1);
-            log.info(shopService.getUserByName("Charlie", "Therone").toString());
         }
     }
 }

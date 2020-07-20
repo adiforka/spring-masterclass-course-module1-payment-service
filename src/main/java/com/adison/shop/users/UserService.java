@@ -1,11 +1,10 @@
 package com.adison.shop.users;
 
+import com.adison.shop.common.PagedResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @Log
 @RequiredArgsConstructor
@@ -21,7 +20,8 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-    public List<User> getByName(String firstName, String lastName) {
-        return userRepository.findByFirstNameAndLastName(firstName, lastName);
+    public PagedResult<User> getByLastName(String lastNameFragment, int pageNumber, int pageSize) {
+        Page<User> userPage = userRepository.findByLastNameContaining(lastNameFragment, PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(userPage.getContent(), pageNumber, userPage.getTotalPages());
     }
 }
