@@ -22,7 +22,7 @@ public class PaymentConfiguration {
     //implementation and automatically treat it as a bean
 
     @Bean
-    public PaymentService basicPaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
+    public BasicPaymentService basicPaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
                                              PaymentRepository paymentRepository,
                                              ApplicationEventPublisher eventPublisher) {
         return new BasicPaymentService(uuidPaymentIdGenerator, paymentRepository, eventPublisher);
