@@ -9,5 +9,16 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/api/users/1
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Richard",
+  "lastName": "Johnson",
+  "email": "richard.johnson@suckit.com"
+}
+
+###
+
+GET http://localhost:8080/api/users
 Accept: application/json

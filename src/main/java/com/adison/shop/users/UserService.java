@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Log
 @Transactional
@@ -26,5 +27,9 @@ public class UserService {
     public PagedResult<User> getByLastName(String lastNameFragment, int pageNumber, int pageSize) {
         Page<User> userPage = userRepository.findByLastNameContaining(lastNameFragment, PageRequest.of(pageNumber, pageSize));
         return new PagedResult<>(userPage.getContent(), pageNumber, userPage.getTotalPages());
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }

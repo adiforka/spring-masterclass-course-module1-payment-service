@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RequestMapping("api/users")
 @Controller
@@ -34,5 +35,11 @@ public class UserController {
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = userService.getById(id);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getAll();
+        return ResponseEntity.ok(users);
     }
 }
