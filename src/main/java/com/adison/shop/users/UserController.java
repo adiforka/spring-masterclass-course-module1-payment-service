@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RequestMapping("api/users")
 @RestController
 @RequiredArgsConstructor
@@ -43,6 +46,8 @@ public class UserController {
     public ResponseEntity<UserTransferObject> getUser(@PathVariable Long id) {
         User user = userService.getById(id);
         UserTransferObject userTransferObject = userMapper.toUserTransferObject(user);
+        //generating links inside the body of the response with hateoas
+        userTransferObject.add(linkTo(methodOn(UserController.class).getUser(id)).withSelfRel());
         return ResponseEntity.ok(userTransferObject);
     }
 
