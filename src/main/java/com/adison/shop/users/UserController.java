@@ -1,9 +1,11 @@
 package com.adison.shop.users;
 
 import com.adison.shop.common.PagedResult;
+import com.adison.shop.common.web.ExceptionTransferObject;
 import com.adison.shop.common.web.PagedResultTransferObject;
 import com.adison.shop.common.web.UriBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +50,21 @@ public class UserController {
     ) {
         PagedResult<User> usersPage = userService.getByLastName(lastNameFragment, pageNumber, pageSize);
        return userMapper.toUserTransferObjectsPage(usersPage);
+    }
+
+    //below is a local, class-level exception handler
+
+    //intercepts exceptions from a controller class and returns them to the client (remember to annotate!)
+    //uses an exception hierarchy, where this ex will be thrown if its subclass instance is thrown and there's no
+    //specialize method to handle that
+
+    //a 404 may mean the client misspelled the name of the resource. we can be more informative by sending back an
+    //exceptionTransferObject in the body of the response.
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ExceptionTransferObject> onUserNotFoundException(UserNotFoundException exception) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ExceptionTransferObject("User not found"));
+
     }
 }
