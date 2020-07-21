@@ -60,11 +60,11 @@ public class UserController {
 
     //a 404 may mean the client misspelled the name of the resource. we can be more informative by sending back an
     //exceptionTransferObject in the body of the response.
-    @ExceptionHandler(UserNotFoundException.class)
+    /*@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionTransferObject> onUserNotFoundException(UserNotFoundException exception) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionTransferObject("User not found"));
 
-    }
+    }*/
 }
