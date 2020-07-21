@@ -1,15 +1,14 @@
 package com.adison.shop.users;
 
 import com.adison.shop.common.PagedResult;
-import com.adison.shop.common.web.ExceptionTransferObject;
 import com.adison.shop.common.web.PagedResultTransferObject;
 import com.adison.shop.common.web.UriBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RequestMapping("api/users")
@@ -23,10 +22,15 @@ public class UserController {
 
 
     @PostMapping
-    //bad practice to pass User directly to the controller (client should not know)--being iterative here
-    //return the created location's URI to the client. use helper class to add ID to the URI location.
-    //@RequestBody lets us get the represented object's state into our object to be handled by the controller method
-    public ResponseEntity<User> addUser(@RequestBody UserTransferObject userTransferObject) {
+    public ResponseEntity<UserTransferObject> addUser(
+            @Valid @RequestBody UserTransferObject userTransferObject,
+            BindingResult bindingResult
+    ) {
+        //validation with @Valid and a BindingResult instance
+        //possible to see what fields failed to pass validation
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
         User user = userMapper.toUser(userTransferObject);
         Long userId = userService.add(user).getId();
         URI locationUri = uriBuilder.requestUriWithId(userId);
