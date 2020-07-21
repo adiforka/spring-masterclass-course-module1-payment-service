@@ -2,9 +2,9 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "firstName": "John",
+  "firstName": "Jackson",
   "lastName": "Connor",
-  "email": "john.connor@resistance.net"
+  "emailAddress": "jackson.connor@resistance.net"
 }
 
 ###
@@ -15,10 +15,14 @@ Content-Type: application/json
 {
   "firstName": "Richard",
   "lastName": "Johnson",
-  "email": "richard.johnson@suckit.com"
+  "emailAddress": "richard.johnson@suckit.com"
 }
 
 ###
 
-GET http://localhost:8080/api/users
+GET http://localhost:8080/api/users/666
+
+###
+
+GET http://localhost:8080/api/users?lastNameFragment=Con
 Accept: application/json

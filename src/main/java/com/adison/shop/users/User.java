@@ -1,10 +1,8 @@
 package com.adison.shop.users;
 
-import com.adison.shop.orders.Order;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Table(name = "users", indexes = @Index(name = "email", columnList = "email"))
 @Entity

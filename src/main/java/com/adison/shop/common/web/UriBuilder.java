@@ -1,4 +1,4 @@
-package com.adison.shop.common;
+package com.adison.shop.common.web;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

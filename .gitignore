@@ -1,4 +1,4 @@
 /target/
 /.idea/
-/spring-masterclass-module1.iml
+*.iml
 /data/

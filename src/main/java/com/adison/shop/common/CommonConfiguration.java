@@ -4,6 +4,7 @@ import com.adison.shop.common.profiler.Profiler;
 import com.adison.shop.common.retry.MethodExecutor;
 import com.adison.shop.common.validator.ModelValidator;
 import com.adison.shop.common.validator.ValidatorService;
+import com.adison.shop.common.web.UriBuilder;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
