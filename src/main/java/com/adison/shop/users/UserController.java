@@ -1,7 +1,7 @@
 package com.adison.shop.users;
 
 import com.adison.shop.common.PagedResult;
-import com.adison.shop.common.web.PagedResultTransferObject;
+import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.common.web.UriBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,8 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<UserTransferObject> addUser(
-            @Valid @RequestBody UserTransferObject userTransferObject,
+    public ResponseEntity<UserDTO> addUser(
+            @Valid @RequestBody UserDTO userDTO,
             BindingResult bindingResult
     ) {
         //validation with @Valid and a BindingResult instance
@@ -34,7 +34,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        User user = userMapper.toUser(userTransferObject);
+        User user = userMapper.toUser(userDTO);
         Long userId = userService.add(user).getId();
         URI locationUri = uriBuilder.requestUriWithId(userId);
         return ResponseEntity.created(locationUri).build();
@@ -43,16 +43,16 @@ public class UserController {
     @GetMapping("{id}")
     //instead of returning a response entity with a status OK on it,
     //we could return a User and Spring would take that as an OK
-    public ResponseEntity<UserTransferObject> getUser(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         User user = userService.getById(id);
-        UserTransferObject userTransferObject = userMapper.toUserTransferObject(user);
+        UserDTO userDTO = userMapper.toUserTransferObject(user);
         //generating links inside the body of the response with hateoas
-        userTransferObject.add(linkTo(methodOn(UserController.class).getUser(id)).withSelfRel());
-        return ResponseEntity.ok(userTransferObject);
+        userDTO.add(linkTo(methodOn(UserController.class).getUser(id)).withSelfRel());
+        return ResponseEntity.ok(userDTO);
     }
 
     @GetMapping
-    public PagedResultTransferObject<UserTransferObject> getUsersByLastName(
+    public PagedResultDTO<UserDTO> getUsersByLastName(
             @RequestParam String lastNameFragment,
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize
@@ -67,8 +67,8 @@ public class UserController {
     //uses an exception hierarchy, where this ex will be thrown if its subclass instance is thrown and there's no
     //specialize method to handle that
 
-    //a 404 may mean the client misspelled the name of the resource. we can be more informative by sending back an
-    //exceptionTransferObject in the body of the response.
+    //a 4ource. we can be more informative by sending back an
+    //exceptionTransferObject in the body of the response.04 may mean the client misspelled the name of the res
     /*@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionTransferObject> onUserNotFoundException(UserNotFoundException exception) {
         return ResponseEntity

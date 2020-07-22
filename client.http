@@ -20,9 +20,24 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/api/users/1
+GET http://localhost:8080/api/users/2
 
 ###
 
-GET http://localhost:8080/api/users?lastNameFragment=Con
+GET http://localhost:8080/api/users?lastNameFragment=johnson
 Accept: application/json
+
+###
+
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "12 Bad Men",
+  "description": "Classical American cinema",
+  "price": {
+    "number": "19.99",
+    "currency": "USD"
+  },
+  "type": "Video"
+}

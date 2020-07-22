@@ -1,7 +1,7 @@
 package com.adison.shop.users;
 
 import com.adison.shop.common.PagedResult;
-import com.adison.shop.common.web.PagedResultTransferObject;
+import com.adison.shop.common.web.PagedResultDTO;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,13 +14,13 @@ public interface UserMapper {
 
     //because we changed email to emailAddress on a field name, we need to provide tips for Mapstruct
     @Mapping(source = "emailAddress", target = "email")
-    User toUser(UserTransferObject userTransferObject);
+    User toUser(UserDTO userDTO);
 
     @Mapping(source = "email", target = "emailAddress")
-    UserTransferObject toUserTransferObject(User user);
+    UserDTO toUserTransferObject(User user);
 
-    @IterableMapping(elementTargetType = UserTransferObject.class)
-    List<UserTransferObject> toUserTransferObjects(List<User> users);
+    @IterableMapping(elementTargetType = UserDTO.class)
+    List<UserDTO> toUserTransferObjects(List<User> users);
 
-    PagedResultTransferObject<UserTransferObject> toUserTransferObjectsPage(PagedResult<User> usersPage);
+    PagedResultDTO<UserDTO> toUserTransferObjectsPage(PagedResult<User> usersPage);
 }

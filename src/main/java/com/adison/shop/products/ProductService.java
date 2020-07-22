@@ -21,7 +21,7 @@ public class ProductService {
 
     //looks like this makes sure to read products from outside the cache, but if I look for a product that was
     //already cached, I don't have the getByName() (below) execution log
-    @CacheEvict(cacheNames = "products")
+    @CacheEvict(cacheNames = "productsnames")
     @Retry
     public Product add(Product product) {
         //the exception to test the retryExecutor
@@ -29,10 +29,17 @@ public class ProductService {
         return productRepository.save(product);
     }
     //when results of first call are cached, this won't be called again until cache is emptied
-    @Cacheable(cacheNames = "products")
-    public List<Product> getByName(String name) {
-        log.info("Reading products from database...");
-        return productRepository.findByNameContaining(name);
+    @Cacheable(cacheNames = "productsNames")
+    public PagedResult<Product> getByName(String name, int pageNumber, int pageSize) {
+        Page<Product> productPage = productRepository.findByNameContaining(name, PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
+    }
+
+    public PagedResult<Product> getByType(String typeString, int pageNumber, int pageSize) {
+        //convert string type object to Product type
+        ProductType type = ProductType.valueOf(typeString);
+        Page<Product> productPage = productRepository.findProductByType(type, PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
     }
 
     public PagedResult<Product> getAll(int pageNumber, int pageSize) {
