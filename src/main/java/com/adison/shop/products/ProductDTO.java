@@ -13,6 +13,7 @@ public class ProductDTO extends RepresentationModel<ProductDTO> {
     private String name;
     @NotEmpty
     private String description;
+    @NotEmpty
     private FastMoney price;
     @NotEmpty
     private ProductType type;
