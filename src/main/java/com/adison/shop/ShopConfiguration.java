@@ -83,4 +83,9 @@ public class ShopConfiguration {
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager("products");
     }
+
+    /*@Bean
+    public ShopService shopService() {
+        return new ShopService();
+    }*/
 }

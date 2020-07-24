@@ -67,7 +67,7 @@ public class UserController {
     //uses an exception hierarchy, where this ex will be thrown if its subclass instance is thrown and there's no
     //specialize method to handle that
 
-    //a 4ource. we can be more informative by sending back an
+    //a source. we can be more informative by sending back an
     //exceptionTransferObject in the body of the response.04 may mean the client misspelled the name of the res
     /*@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionTransferObject> onUserNotFoundException(UserNotFoundException exception) {

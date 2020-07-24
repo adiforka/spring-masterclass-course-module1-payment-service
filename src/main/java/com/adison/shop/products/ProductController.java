@@ -24,8 +24,7 @@ public class ProductController {
     private final UriBuilder uriBuilder;
 
     @PostMapping
-    public ResponseEntity<ProductDTO> addProduct(
-            @Valid @RequestBody ProductDTO productDTO, BindingResult bindingResult) {
+    public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ResponseEntity.badRequest().build();
         }

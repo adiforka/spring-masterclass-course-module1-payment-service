@@ -19,6 +19,8 @@ public interface UserMapper {
     @Mapping(source = "email", target = "emailAddress")
     UserDTO toUserTransferObject(User user);
 
+    //is this necessary because it'll be used in the toUserTransferObjectsPage method anyway? (this here is where the
+    //iteration is)
     @IterableMapping(elementTargetType = UserDTO.class)
     List<UserDTO> toUserTransferObjects(List<User> users);
 
