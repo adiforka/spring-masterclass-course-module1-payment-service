@@ -21,6 +21,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final ProductConverter productConverter;
     private final UriBuilder uriBuilder;
 
     @PostMapping
@@ -42,7 +43,7 @@ public class ProductController {
             @RequestParam(defaultValue = "5") int pageSize
     ) {
         PagedResult<Product> productsPage = productService.getByName(nameFragment, pageNumber, pageSize);
-        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductTransferObjectPage(productsPage);
+        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productsPage);
         //hateoas
         productsPageDTO.add(linkTo(methodOn(ProductController.class)
                 .getProductsByName(nameFragment, pageNumber, pageSize))
@@ -57,7 +58,7 @@ public class ProductController {
             @RequestParam(defaultValue = "5") int pageSize
     ) {
         PagedResult<Product> productsPage = productService.getByType(type, pageNumber, pageSize);
-        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductTransferObjectPage(productsPage);
+        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productsPage);
         //hateoas
         productsPageDTO.add(linkTo(methodOn(ProductController.class)
                 .getProductsByType(type, pageNumber, pageSize))
@@ -70,7 +71,7 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize) {
         PagedResult<Product> productPage = productService.getAll(pageNumber, pageSize);
-        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductTransferObjectPage(productPage);
+        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productPage);
         //hateoas
         productsPageDTO.add(linkTo(methodOn(ProductController.class)
                 .getAllProducts(pageNumber, pageSize))

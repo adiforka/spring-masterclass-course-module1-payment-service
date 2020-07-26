@@ -1,7 +1,6 @@
 package com.adison.shop.products;
 
 import lombok.Data;
-import org.javamoney.moneta.FastMoney;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +13,7 @@ public class ProductDTO extends RepresentationModel<ProductDTO> {
     @NotEmpty
     private String description;
     @NotEmpty
-    private FastMoney price;
+    private String amount;
     @NotEmpty
-    private ProductType type;
+    private String type;
 }
