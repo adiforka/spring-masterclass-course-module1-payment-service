@@ -21,7 +21,7 @@
                 <sf:errors path="lastName"/>
             </div>
             <div class="form-group">
-                <label for="email">Last name</label>
+                <label for="email">Email</label>
                 <sf:input path="email" class="form-control"/>
                 <sf:errors path="email"/>
             </div>

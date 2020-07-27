@@ -4,10 +4,13 @@ import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.web.PagedResultDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +32,11 @@ public class UserWebController {
 
     //this is to add the user (Spring will map the form data in the view to the User object and inject it into the method
     @PostMapping("add-user.html")
-    public String saveUser(User user) {
+    public String saveUser(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            //an error redirects user to same view
+            return "add-user";
+        }
         userService.add(user);
         return "redirect:show-users.html";
     }
