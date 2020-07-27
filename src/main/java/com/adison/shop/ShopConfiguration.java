@@ -1,6 +1,7 @@
 package com.adison.shop;
 
 import com.adison.shop.orders.OrderService;
+import com.adison.shop.payments.PaymentService;
 import com.adison.shop.products.ProductService;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -32,6 +33,11 @@ import java.util.Properties;
 @EnableTransactionManagement
 @Configuration
 public class ShopConfiguration {
+
+    /*@Bean
+    public ShopService shopService(OrderService orderService, ProductService productService, PaymentService paymentService) {
+        return new ShopService(productService, orderService, paymentService);
+    }*/
 
     //configuration for internationalization--adding a message source component to Spring and configuring it
     //this component will have to be injected wherever you want to use it
@@ -84,8 +90,4 @@ public class ShopConfiguration {
         return new ConcurrentMapCacheManager("products");
     }
 
-    /*@Bean
-    public ShopService shopService() {
-        return new ShopService();
-    }*/
 }

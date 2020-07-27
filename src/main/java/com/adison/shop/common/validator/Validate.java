@@ -10,5 +10,4 @@ import java.lang.annotation.Target;
 public @interface Validate {
 
     Class<? extends RuntimeException> exception() default IllegalArgumentException.class;
-
 }

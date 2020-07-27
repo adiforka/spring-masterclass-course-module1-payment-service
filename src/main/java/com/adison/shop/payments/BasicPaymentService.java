@@ -12,7 +12,7 @@ import java.time.Instant;
 @Log
 @Transactional
 @RequiredArgsConstructor
-public class BasicPaymentService {
+public class BasicPaymentService implements PaymentService{
 
     private final PaymentIdGenerator paymentIdGenerator;
     private final PaymentRepository paymentRepository;

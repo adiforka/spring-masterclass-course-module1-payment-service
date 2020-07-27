@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Data
-public class ExceptionTransferObject {
+public class ExceptionDTO {
 
     @NonNull
     private String description;
