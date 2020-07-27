@@ -22,7 +22,7 @@ public interface UserMapper {
     //is this necessary because it'll be used in the toUserTransferObjectsPage method anyway? (this here is where the
     //iteration is)
     @IterableMapping(elementTargetType = UserDTO.class)
-    List<UserDTO> toUserTransferObjects(List<User> users);
+    List<UserDTO> toUserDTOs(List<User> users);
 
-    PagedResultDTO<UserDTO> toUserTransferObjectsPage(PagedResult<User> usersPage);
+    PagedResultDTO<UserDTO> toUserDTOsPage(PagedResult<User> usersPage);
 }

@@ -28,4 +28,9 @@ public class UserService {
         Page<User> userPage = userRepository.findByLastNameContaining(lastNameFragment, PageRequest.of(pageNumber, pageSize));
         return new PagedResult<>(userPage.getContent(), pageNumber, userPage.getTotalPages());
     }
+
+    public PagedResult<User> getAll(int pageNumber, int pageSize) {
+        Page<User> userPage = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(userPage.getContent(), pageNumber, userPage.getTotalPages());
+    }
 }

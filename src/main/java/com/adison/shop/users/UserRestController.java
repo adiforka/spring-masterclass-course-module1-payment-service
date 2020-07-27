@@ -17,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("api/users")
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class UserRestController {
 
     private final UserService userService;
     private final UserMapper userMapper;
@@ -29,8 +29,6 @@ public class UserController {
             @Valid @RequestBody UserDTO userDTO,
             BindingResult bindingResult
     ) {
-        //validation with @Valid and a BindingResult instance
-        //possible to see what fields failed to pass validation
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
@@ -47,7 +45,7 @@ public class UserController {
         User user = userService.getById(id);
         UserDTO userDTO = userMapper.toUserTransferObject(user);
         //generating links inside the body of the response with hateoas
-        userDTO.add(linkTo(methodOn(UserController.class).getUser(id)).withSelfRel());
+        userDTO.add(linkTo(methodOn(UserRestController.class).getUser(id)).withSelfRel());
         return ResponseEntity.ok(userDTO);
     }
 
@@ -58,7 +56,7 @@ public class UserController {
             @RequestParam(defaultValue = "5") int pageSize
     ) {
         PagedResult<User> usersPage = userService.getByLastName(lastNameFragment, pageNumber, pageSize);
-       return userMapper.toUserTransferObjectsPage(usersPage);
+       return userMapper.toUserDTOsPage(usersPage);
     }
 
     //below is a local, class-level exception handler

@@ -5,6 +5,6 @@
     <%@ include file="resources.jsp" %>
 </head>
 <body>
-<%@ include file="menu.jsp" %>
+    <%@ include file="menu.jsp" %>
 </body>
 </html>
