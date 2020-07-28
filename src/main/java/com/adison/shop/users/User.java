@@ -1,5 +1,6 @@
 package com.adison.shop.users;
 
+import com.adison.shop.common.validator.Name;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,9 +20,10 @@ public class User {
     @GeneratedValue
     private Long id;
     //validation constraint (check in controller with binding result, error message overridden in messages.properties)
-    @Pattern(regexp = "[A-Za-z]")
+    @Pattern(regexp = "[A-Za-z]+")
     @Column(name = "first_name", nullable = false)
     private String firstName;
+    @Name
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Email
