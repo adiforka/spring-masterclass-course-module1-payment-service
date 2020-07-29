@@ -10,9 +10,13 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  //api will not be injected into the service
+  providers: [
+    Api
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
