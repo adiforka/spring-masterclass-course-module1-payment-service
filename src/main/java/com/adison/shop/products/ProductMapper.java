@@ -4,10 +4,8 @@ import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.payments.LocalMoney;
 import org.javamoney.moneta.FastMoney;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
@@ -18,22 +16,40 @@ import java.util.Locale;
 public interface ProductMapper {
 
 
+    default FastMoney toFastMoney(String price) {
+        if (price == null) {
+            return LocalMoney.of(0);
+        }
+        return FastMoney.parse(price);
+    }
+
+    default String toPrice(FastMoney price) {
+        if (price == null) {
+            return "";
+        }
+        return price.toString();
+    }
+
     Product toProduct(ProductDTO productDTO);
 
-    default FastMoney toFastMoney(String amount) {
-        var currencyUnit = Monetary.getCurrency(Locale.getDefault());
-        return FastMoney.of(Double.parseDouble(amount), currencyUnit);
-    }
-
     ProductDTO toProductDTO(Product product);
-
-    default String toAmount(FastMoney money) {
-        return money.getNumber().toString();
-    }
 
     @IterableMapping(elementTargetType = ProductDTO.class)
     List<ProductDTO> toProductDTOs(List<Product> products);
 
-    PagedResultDTO<ProductDTO> toProductsPageDTO(PagedResult<Product> productPagedResult);
+    PagedResultDTO<ProductDTO> toProductsPageDTO(PagedResult<Product> productsPage);
+
+    //for mapping enums
+    @ValueMapping(target = "EBOOK", source = "BOOK")
+    @ValueMapping(target = "MUSIC", source = "AUDIO")
+    @ValueMapping(target = "VIDEO", source = "VIDEO")
+    ProductTypeDTO toProductTypeDTO(ProductType type);
+
+    @ValueMapping(target = "BOOK", source = "EBOOK")
+    @ValueMapping(target = "AUDIO", source = "MUSIC")
+    @ValueMapping(target = "VIDEO", source = "VIDEO")
+    ProductType toProductType(ProductTypeDTO typeDTO);
+
+
 
 }

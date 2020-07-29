@@ -1,3 +1,4 @@
+/*
 package com.adison.shop.orders;
 
 import com.adison.shop.common.web.UriBuilder;
@@ -29,3 +30,4 @@ public class OrderController {
 
 
 }
+*/

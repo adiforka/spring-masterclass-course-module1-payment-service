@@ -21,8 +21,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private final ProductConverter productConverter;
-    private final UriBuilder uriBuilder;
+    private final UriBuilder uriBuilder = new UriBuilder();
 
     @PostMapping
     public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO, BindingResult bindingResult) {
@@ -36,7 +35,7 @@ public class ProductController {
     }
 
     //how to better differentiate request urls?
-    @GetMapping("getByName")
+    @GetMapping("get-by-name")
     public PagedResultDTO<ProductDTO> getProductsByName(
             @RequestParam String nameFragment,
             @RequestParam(defaultValue = "0") int pageNumber,
@@ -51,7 +50,7 @@ public class ProductController {
         return productsPageDTO;
     }
 
-    @GetMapping("getByType")
+    @GetMapping("get-by-type")
     public PagedResultDTO<ProductDTO> getProductsByType(
             @RequestParam String type,
             @RequestParam(defaultValue = "0") int pageNumber,

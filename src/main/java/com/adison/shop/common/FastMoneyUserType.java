@@ -37,14 +37,11 @@ public class FastMoneyUserType implements CompositeUserType {
             return null;
         }
         FastMoney money = (FastMoney) component;
-        switch (propertyIndex) {
-            case 0:
-                return money.getCurrency().getCurrencyCode();
-            case 1:
-                return money.getNumber().numberValue(Long.class);
-            default:
-                throw new HibernateException("Invalid property index [" + propertyIndex + "]");
-        }
+        return switch (propertyIndex) {
+            case 0 -> money.getCurrency().getCurrencyCode();
+            case 1 -> money.getNumber().numberValue(Long.class);
+            default -> throw new HibernateException("Invalid property index [" + propertyIndex + "]");
+        };
     }
 
     public void setPropertyValue(Object component, int propertyIndex, Object value) {
@@ -55,7 +52,7 @@ public class FastMoneyUserType implements CompositeUserType {
     }
 
     @Override
-    public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object object) throws SQLException, SQLException {
+    public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object object) throws SQLException {
         assert names.length == 2;
         FastMoney money = null;
         String currency = resultSet.getString(names[0]);

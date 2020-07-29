@@ -1,6 +1,7 @@
 package com.adison.shop.products;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,10 +11,8 @@ public class ProductDTO extends RepresentationModel<ProductDTO> {
 
     @NotEmpty
     private String name;
-    @NotEmpty
+    @Length(min = 3, max = 255)
     private String description;
-    @NotEmpty
-    private String amount;
-    @NotEmpty
-    private String type;
+    private String price;
+    private ProductTypeDTO type;
 }

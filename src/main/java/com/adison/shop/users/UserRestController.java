@@ -21,7 +21,7 @@ public class UserRestController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-    private final UriBuilder uriBuilder;
+    private final UriBuilder uriBuilder = new UriBuilder();
 
 
     @PostMapping

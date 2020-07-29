@@ -48,8 +48,8 @@ public class CommonConfiguration {
         return methodExecutor;
     }
 
-    @Bean
+    /*@Bean
     public UriBuilder uriBuilder() {
         return new UriBuilder();
-    }
+    }*/
 }
