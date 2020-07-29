@@ -32,6 +32,16 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     }
 
+    //setting same-origin policy so that frontend on port 4200 can communicate with backend on 8080 without getting
+    //blocked by the browser
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowedOrigins("http://localhost:4200");
+    }
+
     //resolvers put together and return a view from a logical view name received from the controller (thru a ds)
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
