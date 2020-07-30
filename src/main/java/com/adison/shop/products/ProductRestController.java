@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -77,5 +79,12 @@ public class ProductRestController {
                 .withSelfRel());
         //using response entity here to remember it's the basic option
         return ResponseEntity.ok(productsPageDTO);
+    }
+
+    //homework REST part 3
+    @PostMapping(value = "{id}/files")
+    public String submit(@PathVariable Long id, @RequestBody MultipartFile file) {
+        //save to some storage
+        return "File " + file.getOriginalFilename() + " uploaded";
     }
 }

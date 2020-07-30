@@ -43,13 +43,10 @@ public interface ProductMapper {
     @ValueMapping(target = "EBOOK", source = "BOOK")
     @ValueMapping(target = "MUSIC", source = "AUDIO")
     @ValueMapping(target = "VIDEO", source = "VIDEO")
-    ProductTypeDTO toProductTypeDTO(ProductType type);
+    ProductTypeDTO toProductTypeDTO(ProductType productType);
 
     @ValueMapping(target = "BOOK", source = "EBOOK")
     @ValueMapping(target = "AUDIO", source = "MUSIC")
     @ValueMapping(target = "VIDEO", source = "VIDEO")
-    ProductType toProductType(ProductTypeDTO typeDTO);
-
-
-
+    ProductType toProductType(ProductTypeDTO productTypeDTO);
 }

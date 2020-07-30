@@ -14,5 +14,5 @@ public class ProductDTO extends RepresentationModel<ProductDTO> {
     @Length(min = 3, max = 255)
     private String description;
     private String price;
-    private ProductTypeDTO type;
+    private String type;
 }
