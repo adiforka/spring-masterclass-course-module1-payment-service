@@ -23,12 +23,13 @@ public class UserWebController {
     @GetMapping("add-user.html")
     public ModelAndView addUser() {
         var modelAndView = new ModelAndView("add-user");
+        //Spring will map the form data in the view to the User object and inject it into the method
         //if I don't add a key, the object will be identified by type, lower-case ("user"). add for binding
         modelAndView.addObject(new User());
         return modelAndView;
     }
 
-    //this is to add the user (Spring will map the form data in the view to the User object and inject it into the method
+    //this is to add the user (Injects result of binding data in the form to the provided user instance)
     @PostMapping("add-user.html")
     public String saveUser(@Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
