@@ -32,9 +32,9 @@ public class UserRestController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        User user = userMapper.toUser(userDTO);
-        Long userId = userService.add(user).getId();
-        URI locationUri = uriBuilder.requestUriWithId(userId);
+        var user = userMapper.toUser(userDTO);
+        var userId = userService.add(user).getId();
+        var locationUri = uriBuilder.requestUriWithId(userId);
         return ResponseEntity.created(locationUri).build();
     }
 
@@ -42,8 +42,8 @@ public class UserRestController {
     //instead of returning a response entity with a status OK on it,
     //we could return a User and Spring would take that as an OK
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
-        User user = userService.getById(id);
-        UserDTO userDTO = userMapper.toUserTransferObject(user);
+        var user = userService.getById(id);
+        var userDTO = userMapper.toUserTransferObject(user);
         //generating links inside the body of the response with hateoas
         userDTO.add(linkTo(methodOn(UserRestController.class).getUser(id)).withSelfRel());
         return ResponseEntity.ok(userDTO);
@@ -63,15 +63,16 @@ public class UserRestController {
 
     //intercepts exceptions from a controller class and returns them to the client (remember to annotate!)
     //uses an exception hierarchy, where this ex will be thrown if its subclass instance is thrown and there's no
-    //specialize method to handle that
+    //specialized method to handle that
 
     //a source. we can be more informative by sending back an
-    //exceptionTransferObject in the body of the response.04 may mean the client misspelled the name of the res
+    //exceptionTransferObject in the body of the response. 404 may mean the client misspelled the name of the resource
+    //which nonetheless exists
     /*@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionTransferObject> onUserNotFoundException(UserNotFoundException exception) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ExceptionTransferObject("User not found"));
+                .body(new ExceptionDTO("User not found"));
 
     }*/
 }

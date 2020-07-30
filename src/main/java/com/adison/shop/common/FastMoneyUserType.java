@@ -2,6 +2,7 @@ package com.adison.shop.common;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.type.DoubleType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
@@ -24,7 +25,7 @@ public class FastMoneyUserType implements CompositeUserType {
     }
 
     public Type[] getPropertyTypes() {
-        return new Type[]{StringType.INSTANCE, LongType.INSTANCE};
+        return new Type[]{StringType.INSTANCE, DoubleType.INSTANCE};
     }
 
     @Override
@@ -39,7 +40,7 @@ public class FastMoneyUserType implements CompositeUserType {
         FastMoney money = (FastMoney) component;
         return switch (propertyIndex) {
             case 0 -> money.getCurrency().getCurrencyCode();
-            case 1 -> money.getNumber().numberValue(Long.class);
+            case 1 -> money.getNumber().numberValue(Double.class);
             default -> throw new HibernateException("Invalid property index [" + propertyIndex + "]");
         };
     }
@@ -55,9 +56,9 @@ public class FastMoneyUserType implements CompositeUserType {
     public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object object) throws SQLException {
         assert names.length == 2;
         FastMoney money = null;
-        String currency = resultSet.getString(names[0]);
+        var currency = resultSet.getString(names[0]);
         if (!resultSet.wasNull()) {
-            Long amount = resultSet.getLong(names[1]);
+            var amount = resultSet.getDouble(names[1]);
             money = FastMoney.of(amount, currency);
         }
         return money;
@@ -67,11 +68,11 @@ public class FastMoneyUserType implements CompositeUserType {
     public void nullSafeSet(PreparedStatement preparedStatement, Object value, int property, SharedSessionContractImplementor session) throws SQLException {
         if (null == value) {
             preparedStatement.setNull(property, StringType.INSTANCE.sqlType());
-            preparedStatement.setNull(property + 1, LongType.INSTANCE.sqlType());
+            preparedStatement.setNull(property + 1, DoubleType.INSTANCE.sqlType());
         } else {
             FastMoney amount = (FastMoney) value;
             preparedStatement.setString(property, amount.getCurrency().getCurrencyCode());
-            preparedStatement.setLong(property + 1, amount.getNumber().numberValue(Long.class));
+            preparedStatement.setDouble(property + 1, amount.getNumber().numberValue(Double.class));
         }
     }
 

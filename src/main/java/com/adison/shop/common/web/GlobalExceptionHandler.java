@@ -1,6 +1,5 @@
 package com.adison.shop.common.web;
 
-import com.adison.shop.orders.InvalidOrderException;
 import com.adison.shop.users.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -12,7 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Locale;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -26,12 +26,13 @@ public class GlobalExceptionHandler {
         return createResponse(ex, INTERNAL_SERVER_ERROR, locale);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionDTO> onUserNotFoundException(UserNotFoundException ex, Locale locale) {
         return createResponse(ex, NOT_FOUND, locale);
     }
 
     private ResponseEntity<ExceptionDTO> createResponse(Exception ex, HttpStatus status, Locale locale) {
-        String exceptionName = ex.getClass().getSimpleName();
+        var exceptionName = ex.getClass().getSimpleName();
         String description;
         try {
             //message is under the key of the simple name of the class of the exception handling the sit

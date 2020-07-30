@@ -13,9 +13,9 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        var ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(MvcConfiguration.class);
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(ctx);
+        var dispatcherServlet = new DispatcherServlet(ctx);
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", dispatcherServlet);
         //map all incoming requests to the servlet, for it to pass them on
         dispatcher.addMapping("/");

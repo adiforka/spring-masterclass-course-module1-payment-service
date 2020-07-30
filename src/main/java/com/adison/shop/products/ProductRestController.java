@@ -17,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("api/products")
 @RestController
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductRestController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
@@ -28,9 +28,9 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             ResponseEntity.badRequest().build();
         }
-        Product product = productMapper.toProduct(productDTO);
-        Long productId = productService.add(product).getId();
-        URI locationUri = uriBuilder.requestUriWithId(productId);
+        var product = productMapper.toProduct(productDTO);
+        var productId = productService.add(product).getId();
+        var locationUri = uriBuilder.requestUriWithId(productId);
         return ResponseEntity.created(locationUri).build();
     }
 
@@ -44,7 +44,7 @@ public class ProductController {
         PagedResult<Product> productsPage = productService.getByName(nameFragment, pageNumber, pageSize);
         PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productsPage);
         //hateoas
-        productsPageDTO.add(linkTo(methodOn(ProductController.class)
+        productsPageDTO.add(linkTo(methodOn(ProductRestController.class)
                 .getProductsByName(nameFragment, pageNumber, pageSize))
                 .withSelfRel());
         return productsPageDTO;
@@ -56,10 +56,10 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize
     ) {
-        PagedResult<Product> productsPage = productService.getByType(type, pageNumber, pageSize);
-        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productsPage);
+        var productsPage = productService.getByType(type, pageNumber, pageSize);
+        var productsPageDTO = productMapper.toProductsPageDTO(productsPage);
         //hateoas
-        productsPageDTO.add(linkTo(methodOn(ProductController.class)
+        productsPageDTO.add(linkTo(methodOn(ProductRestController.class)
                 .getProductsByType(type, pageNumber, pageSize))
                 .withSelfRel());
         return productsPageDTO;
@@ -69,10 +69,10 @@ public class ProductController {
     public ResponseEntity<PagedResultDTO<ProductDTO>> getAllProducts(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize) {
-        PagedResult<Product> productPage = productService.getAll(pageNumber, pageSize);
-        PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productPage);
+        var productsPage = productService.getAll(pageNumber, pageSize);
+        var productsPageDTO = productMapper.toProductsPageDTO(productsPage);
         //hateoas
-        productsPageDTO.add(linkTo(methodOn(ProductController.class)
+        productsPageDTO.add(linkTo(methodOn(ProductRestController.class)
                 .getAllProducts(pageNumber, pageSize))
                 .withSelfRel());
         //using response entity here to remember it's the basic option

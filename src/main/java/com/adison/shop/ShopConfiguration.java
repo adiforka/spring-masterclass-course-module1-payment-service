@@ -43,7 +43,7 @@ public class ShopConfiguration {
     //this component will have to be injected wherever you want to use it
     @Bean
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        var messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("messages", "messages_pl_PL");
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.toString());
         return messageSource;
@@ -52,8 +52,8 @@ public class ShopConfiguration {
     @Bean
     public DataSource dataSource(Environment env) {
         //DriverManagerDataSource good for dev env, but does not allow db connection pooling (important for efficiency)
-        //so we use HikariCP
-        HikariDataSource dataSource = new HikariDataSource();
+        //so we use HikariCP (and db connection objects are expensive
+        var dataSource = new HikariDataSource();
         //getting properties from external file (env and stuff) through an object provided by Spring that encapsulates them
         dataSource.setUsername(env.getProperty("database.username"));
         dataSource.setPassword(env.getProperty("database.password"));
@@ -65,14 +65,14 @@ public class ShopConfiguration {
     //configuring hibernate with data from jpa.properties file
     @Bean
     public PropertiesFactoryBean jpaProperties() {
-        PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+        var factoryBean = new PropertiesFactoryBean();
         factoryBean.setLocation(new ClassPathResource("jpa.properties"));
         return factoryBean;
     }
 
     @Bean //when migrating to SpringData, a bean with method name "entityManagerFactory" is required
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, Properties jpaProperties) {
-        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        var factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
         factoryBean.setJpaProperties(jpaProperties);
         factoryBean.setPackagesToScan("com.adison.shop");

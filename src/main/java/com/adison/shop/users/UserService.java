@@ -25,12 +25,12 @@ public class UserService {
     }
 
     public PagedResult<User> getByLastName(String lastNameFragment, int pageNumber, int pageSize) {
-        Page<User> userPage = userRepository.findByLastNameContaining(lastNameFragment, PageRequest.of(pageNumber, pageSize));
-        return new PagedResult<>(userPage.getContent(), pageNumber, userPage.getTotalPages());
+        var usersPage = userRepository.findByLastNameContaining(lastNameFragment, PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(usersPage.getContent(), pageNumber, usersPage.getTotalPages());
     }
 
     public PagedResult<User> getAll(int pageNumber, int pageSize) {
-        Page<User> userPage = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
-        return new PagedResult<>(userPage.getContent(), pageNumber, userPage.getTotalPages());
+        var usersPage = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(usersPage.getContent(), pageNumber, usersPage.getTotalPages());
     }
 }
