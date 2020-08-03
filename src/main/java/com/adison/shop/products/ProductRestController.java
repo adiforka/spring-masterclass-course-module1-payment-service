@@ -39,7 +39,7 @@ public class ProductRestController {
     //how to better differentiate request urls?
     @GetMapping("get-by-name")
     public PagedResultDTO<ProductDTO> getProductsByName(
-            @RequestParam String nameFragment,
+            @RequestParam(defaultValue = "") String nameFragment,
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize
     ) {
@@ -65,20 +65,6 @@ public class ProductRestController {
                 .getProductsByType(type, pageNumber, pageSize))
                 .withSelfRel());
         return productsPageDTO;
-    }
-
-    @GetMapping
-    public ResponseEntity<PagedResultDTO<ProductDTO>> getAllProducts(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "5") int pageSize) {
-        var productsPage = productService.getAll(pageNumber, pageSize);
-        var productsPageDTO = productMapper.toProductsPageDTO(productsPage);
-        //hateoas
-        productsPageDTO.add(linkTo(methodOn(ProductRestController.class)
-                .getAllProducts(pageNumber, pageSize))
-                .withSelfRel());
-        //using response entity here to remember it's the basic option
-        return ResponseEntity.ok(productsPageDTO);
     }
 
     //homework REST part 3

@@ -38,9 +38,4 @@ public class ProductService {
         Page<Product> productPage = productRepository.findProductByType(productType, PageRequest.of(pageNumber, pageSize));
         return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
     }
-
-    public PagedResult<Product> getAll(int pageNumber, int pageSize) {
-        var productPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize));
-        return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
-    }
 }
