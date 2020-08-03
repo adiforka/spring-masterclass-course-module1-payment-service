@@ -22,12 +22,9 @@ public class WebInitializer implements WebApplicationInitializer {
         ctx.register(MvcConfiguration.class);
         var dispatcherServlet = new DispatcherServlet(ctx);
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", dispatcherServlet);
-        //map all incoming requests to the servlet, for it to pass them on
         dispatcher.addMapping("/");
-        //load on ctx start up, otherwise lazily initialized on first request (this servlet loads first).
-        //the method itself enforces servlet load on startup
         dispatcher.setLoadOnStartup(1);
-        //for file upload
+
         var multipartConfigElement = new MultipartConfigElement(TEMP_FOLDER, MAX_UPLOAD_SIZE,
                 MAX_UPLOAD_SIZE * 2,
                 MAX_UPLOAD_SIZE / 2);

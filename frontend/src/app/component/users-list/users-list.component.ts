@@ -10,7 +10,7 @@ import {UserModel} from "../../model/user.model";
 })
 export class UsersListComponent {
 
-pagedResult: PagedResultModel<UserModel>;
+  pagedResult: PagedResultModel<UserModel>;
 
   constructor(private userService: UserService) {
     this.reload(0);

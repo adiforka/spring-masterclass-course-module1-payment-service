@@ -7,14 +7,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Api } from './api';
 import { UserService } from "./service/user.service";
+import { ProductService } from "./service/product.service";
 import { UsersListComponent } from './component/users-list/users-list.component';
 import { UserFormComponent } from './component/user-form/user-form.component';
+import { ProductsListComponent } from './component/products-list/products-list.component';
+import { ProductFormComponent } from './component/product-form/product-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersListComponent,
-    UserFormComponent
+    UserFormComponent,
+    ProductsListComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,8 @@ import { UserFormComponent } from './component/user-form/user-form.component';
   //api will not be injected into the service
   providers: [
     Api,
-    UserService
+    UserService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })

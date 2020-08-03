@@ -3,6 +3,7 @@ import {environment} from "../environments/environment";
 
 export class Api {
 
-  // back ticks to show that strings  carry expressions
+  // back ticks to show that strings carry expressions
   users = `${environment.baseUrl}users`;
+  products = `${environment.baseUrl}products`;
 }

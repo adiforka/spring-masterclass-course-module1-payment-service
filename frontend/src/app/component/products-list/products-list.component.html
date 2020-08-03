@@ -1,0 +1,29 @@
+<div *ngIf="pagedResult">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of pagedResult.data">
+      <td>{{product.name}}</td>
+      <td>{{product.description}}</td>
+      <td>{{product.price}}</td>
+      <td>{{product.type}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-sm btn-outline-primary"
+          (click)="previous()"
+          *ngIf="pagedResult.pageNumber !== 0">Previous
+  </button>
+  <button class="btn btn-sm btn-outline-primary float-right"
+          (click)="next()"
+          *ngIf="pagedResult.pageNumber < pagedResult.totalPages - 1">Next
+  </button>
+</div>
+
