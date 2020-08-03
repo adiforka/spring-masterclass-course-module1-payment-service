@@ -3,6 +3,8 @@ package com.adison.shop.products;
 import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.common.web.UriBuilder;
+import com.adison.shop.users.UserDTO;
+import com.adison.shop.users.UserRestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,7 +18,7 @@ import java.net.URI;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RequestMapping("api/products")
+@RequestMapping("${apiPrefix}/products")
 @RestController
 @RequiredArgsConstructor
 public class ProductRestController {
@@ -36,8 +38,16 @@ public class ProductRestController {
         return ResponseEntity.created(locationUri).build();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
+        var product = productService.getById(id);
+        var productDTO = productMapper.toProductDTO(product);
+        productDTO.add(linkTo(methodOn(UserRestController.class).getUser(id)).withSelfRel());
+        return ResponseEntity.ok(productDTO);
+    }
+
     //how to better differentiate request urls?
-    @GetMapping("get-by-name")
+    @GetMapping
     public PagedResultDTO<ProductDTO> getProductsByName(
             @RequestParam(defaultValue = "") String nameFragment,
             @RequestParam(defaultValue = "0") int pageNumber,

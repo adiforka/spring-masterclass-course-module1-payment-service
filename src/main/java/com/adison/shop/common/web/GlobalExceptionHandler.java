@@ -1,5 +1,6 @@
 package com.adison.shop.common.web;
 
+import com.adison.shop.products.ProductNotFoundException;
 import com.adison.shop.users.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -28,6 +29,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionDTO> onUserNotFoundException(UserNotFoundException ex, Locale locale) {
+        return createResponse(ex, NOT_FOUND, locale);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ExceptionDTO> onProductNotFoundException(ProductNotFoundException ex, Locale locale) {
         return createResponse(ex, NOT_FOUND, locale);
     }
 

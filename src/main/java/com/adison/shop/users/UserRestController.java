@@ -13,8 +13,8 @@ import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-@RequestMapping("api/users")
+//defined in yml config
+@RequestMapping("${apiPrefix}/users")
 @RestController
 @RequiredArgsConstructor
 public class UserRestController {
@@ -51,7 +51,7 @@ public class UserRestController {
 
     @GetMapping
     public PagedResultDTO<UserDTO> getUsersByLastName(
-            @RequestParam String lastNameFragment,
+            @RequestParam(defaultValue = "") String lastNameFragment,
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize
     ) {

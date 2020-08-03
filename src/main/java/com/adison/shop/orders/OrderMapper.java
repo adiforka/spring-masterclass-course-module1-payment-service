@@ -13,13 +13,13 @@ import java.util.List;
 public interface OrderMapper {
 
 
-    /*Order toOrder(OrderDTO orderDTO);
+    Order toOrder(OrderDTO orderDTO);
 
     default Instant toInstant(final Timestamp timestamp) {
         return timestamp == null ? null : timestamp.toInstant();
     }
 
-    @IterableMapping(elementTargetType = Product.class)
+    /*@IterableMapping(elementTargetType = Product.class)
     List<Product> toProductList(List<ProductDTO> productDTOS);*/
 
 

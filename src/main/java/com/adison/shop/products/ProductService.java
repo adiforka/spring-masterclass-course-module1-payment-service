@@ -27,6 +27,11 @@ public class ProductService {
         //throw new RuntimeException();
         return productRepository.save(product);
     }
+
+    public Product getById(Long id) {
+        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+    }
+
     //@Cacheable(cacheNames = "productsNames")
     public PagedResult<Product> getByName(String name, int pageNumber, int pageSize) {
         var productPage = productRepository.findByNameContaining(name, PageRequest.of(pageNumber, pageSize));

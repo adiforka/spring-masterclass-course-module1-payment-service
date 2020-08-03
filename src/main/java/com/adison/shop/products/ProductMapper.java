@@ -1,6 +1,7 @@
 package com.adison.shop.products;
 
 import com.adison.shop.common.PagedResult;
+import com.adison.shop.common.web.FastMoneyMapper;
 import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.payments.LocalMoney;
 import org.javamoney.moneta.FastMoney;
@@ -12,23 +13,8 @@ import javax.money.Monetary;
 import java.util.List;
 import java.util.Locale;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = FastMoneyMapper.class)
 public interface ProductMapper {
-
-
-    default FastMoney toFastMoney(String price) {
-        if (price == null) {
-            return LocalMoney.of(0);
-        }
-        return FastMoney.parse(price);
-    }
-
-    default String toPrice(FastMoney price) {
-        if (price == null) {
-            return "";
-        }
-        return price.toString();
-    }
 
     Product toProduct(ProductDTO productDTO);
 
@@ -45,8 +31,6 @@ public interface ProductMapper {
     @ValueMapping(target = "VIDEO", source = "VIDEO")
     ProductTypeDTO toProductTypeDTO(ProductType productType);
 
-    @ValueMapping(target = "BOOK", source = "EBOOK")
-    @ValueMapping(target = "AUDIO", source = "MUSIC")
-    @ValueMapping(target = "VIDEO", source = "VIDEO")
+   @InheritInverseConfiguration
     ProductType toProductType(ProductTypeDTO productTypeDTO);
 }

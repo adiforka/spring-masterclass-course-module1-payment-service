@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 
     //cool--returns all product objects whose name contains the argument string (SD's DSL)
     //good for simple queries
-    Page<Product> findByNameContaining(String id, PageRequest pageRequest);
+    Page<Product> findByNameContaining(String nameFragment, Pageable pageRequest);
 
     //for more complex queries, use @Query with JPQL. this adds query validation too from SD aww <3
     @Query("select p from Product p where p.type = :type")

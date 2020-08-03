@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      location: ${java.io.tmpdir}
+      enabled: true
+      max-request-size: 5MB
+      max-file size: 5MB
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:file:./shop
+  messages:
+    basename: messages #default value
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+apiPrefix: api
+
+
+
+
