@@ -5,9 +5,11 @@ import com.adison.shop.common.retry.MethodExecutor;
 import com.adison.shop.common.validator.ModelValidator;
 import com.adison.shop.common.validator.ValidatorService;
 import com.adison.shop.common.web.UriBuilder;
+import com.adison.shop.products.ProductRestController;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.Validator;
@@ -47,9 +49,4 @@ public class CommonConfiguration {
         methodExecutor.setAttempts(5);
         return methodExecutor;
     }
-
-    /*@Bean
-    public UriBuilder uriBuilder() {
-        return new UriBuilder();
-    }*/
 }

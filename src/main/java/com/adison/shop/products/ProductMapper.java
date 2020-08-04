@@ -23,6 +23,9 @@ public interface ProductMapper {
     @IterableMapping(elementTargetType = ProductDTO.class)
     List<ProductDTO> toProductDTOs(List<Product> products);
 
+    @IterableMapping(elementTargetType = Product.class)
+    List<Product> toProducts(List<ProductDTO> productDTOS);
+
     PagedResultDTO<ProductDTO> toProductsPageDTO(PagedResult<Product> productsPage);
 
     //for mapping enums

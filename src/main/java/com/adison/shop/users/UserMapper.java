@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    //because we changed email to emailAddress on a field name, we need to provide tips for Mapstruct
+    //because we changed email to emailAddress on a field name, we need to provide tips for MapStruct
     @Mapping(source = "emailAddress", target = "email")
     User toUser(UserDTO userDTO);
 

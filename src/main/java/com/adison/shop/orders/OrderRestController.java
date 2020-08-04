@@ -4,10 +4,10 @@ import com.adison.shop.common.web.UriBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping("${apiPrefix}/orders")
 @RestController
@@ -19,13 +19,14 @@ public class OrderRestController {
     private final UriBuilder uriBuilder = new UriBuilder();
 
     @PostMapping
-    public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO orderDTO, BindingResult bindingResult) {
+    public ResponseEntity<OrderDTO> addOrder(@Valid @RequestBody OrderDTO orderDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
+
         var order = orderMapper.toOrder(orderDTO);
-        var id = orderService.add(order).getId();
-        var location = uriBuilder.requestUriWithId(id);
+        var orderId = orderService.add(order).getId();
+        var location = uriBuilder.requestUriWithId(orderId);
         return ResponseEntity.created(location).build();
     }
 }

@@ -33,8 +33,8 @@ public class ProductService {
     }
 
     //@Cacheable(cacheNames = "productsNames")
-    public PagedResult<Product> getByName(String name, int pageNumber, int pageSize) {
-        var productPage = productRepository.findByNameContaining(name, PageRequest.of(pageNumber, pageSize));
+    public PagedResult<Product> getAll(int pageNumber, int pageSize) {
+        var productPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize));
         return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
     }
 

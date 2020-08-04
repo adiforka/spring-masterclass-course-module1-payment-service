@@ -69,7 +69,7 @@ public class UserRestController {
     //exceptionTransferObject in the body of the response. 404 may mean the client misspelled the name of the resource
     //which nonetheless exists
     /*@ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ExceptionTransferObject> onUserNotFoundException(UserNotFoundException exception) {
+    public ResponseEntity<ExceptionDTO> onUserNotFoundException(UserNotFoundException exception) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionDTO("User not found"));

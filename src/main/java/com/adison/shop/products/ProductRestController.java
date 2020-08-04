@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.File;
@@ -48,16 +49,15 @@ public class ProductRestController {
 
     //how to better differentiate request urls?
     @GetMapping
-    public PagedResultDTO<ProductDTO> getProductsByName(
-            @RequestParam(defaultValue = "") String nameFragment,
+    public PagedResultDTO<ProductDTO> getProducts(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize
     ) {
-        PagedResult<Product> productsPage = productService.getByName(nameFragment, pageNumber, pageSize);
+        PagedResult<Product> productsPage = productService.getAll(pageNumber, pageSize);
         PagedResultDTO<ProductDTO> productsPageDTO = productMapper.toProductsPageDTO(productsPage);
         //hateoas
         productsPageDTO.add(linkTo(methodOn(ProductRestController.class)
-                .getProductsByName(nameFragment, pageNumber, pageSize))
+                .getProducts(pageNumber, pageSize))
                 .withSelfRel());
         return productsPageDTO;
     }
