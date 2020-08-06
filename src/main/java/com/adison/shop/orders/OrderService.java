@@ -1,8 +1,12 @@
 package com.adison.shop.orders;
 
+import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.validator.Validate;
+import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.payments.Payment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
@@ -33,6 +37,11 @@ public class OrderService {
     public void update(Order order) {
         //JpaRepository in SD uses save to update rows in db if an element already exists
         orderRepository.save(order);
+    }
+
+    public PagedResult<Order> getAll(int pageNumber, int pageSize) {
+        var orderPage = orderRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return new PagedResult<>(orderPage.getContent(), pageNumber, orderPage.getTotalPages());
     }
 
 }

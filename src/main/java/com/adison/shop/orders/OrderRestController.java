@@ -1,7 +1,9 @@
 package com.adison.shop.orders;
 
+import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.common.web.UriBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +30,20 @@ public class OrderRestController {
         var orderId = orderService.add(order).getId();
         var location = uriBuilder.requestUriWithId(orderId);
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
+        var order = orderService.getById(id);
+        var orderDTO = orderMapper.toOrderDTO(order);
+        return ResponseEntity.ok(orderDTO);
+    }
+
+    @GetMapping
+    public PagedResultDTO<OrderDTO> getAllOrders(@RequestParam(defaultValue = "0") int pageNumber,
+                                                 @RequestParam(defaultValue = "5") int pageSize
+    ) {
+        var orderPagedResult = orderService.getAll(pageNumber, pageSize);
+        return orderMapper.toOrderPagedResultDTO(orderPagedResult);
     }
 }

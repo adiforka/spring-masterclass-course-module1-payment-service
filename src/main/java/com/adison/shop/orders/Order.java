@@ -17,8 +17,10 @@ import java.util.List;
 @Entity
 @RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(exclude = "id")
 @Data
+@Builder
 public class Order {
 
     @Id

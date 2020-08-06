@@ -18,6 +18,6 @@ export class UserFormComponent {
 
   save() {
     this.userService.addUser(this.user)
-    .subscribe(() => this.router.navigateByUrl('users'), error => console.log(error));
+      .subscribe(() => this.router.navigateByUrl('users'), error => console.log(error));
   }
 }
