@@ -12,12 +12,14 @@ import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.boot.SpringApplication.*;
+
 @Log
 @SpringBootApplication
 public class ShopApplication {
@@ -37,7 +39,8 @@ public class ShopApplication {
             .build();
 
     public static void main(String[] args) {
-        ApplicationContext ctx = run(ShopApplication.class, args);
+        var ctx = run(ShopApplication.class, args);
+
         var orderService = ctx.getBean(OrderService.class);
         var productService = ctx.getBean(ProductService.class);
         var orderMapper = ctx.getBean(OrderMapper.class);
@@ -50,10 +53,16 @@ public class ShopApplication {
                 .timestamp(Instant.now())
                 .build();
 
-        var orderId = orderService.add(order).getId();
-        var retrievedOrder = orderService.getById(orderId);
-        OrderDTO orderDTO = orderMapper.toOrderDTO(retrievedOrder);
-        log.info(orderDTO.toString());
+        var order2 = Order.builder()
+                .products(List.of(PRODUCT1, PRODUCT2))
+                .timestamp(Instant.now())
+                .build();
 
+        orderService.add(order);
+        orderService.add(order2);
+
+        var orderPagedResult = orderService.getAll(0, 10);
+        var orderPagedResultDTO = orderMapper.toOrderPagedResultDTO(orderPagedResult);
+        log.info(orderPagedResultDTO.toString());
     }
 }

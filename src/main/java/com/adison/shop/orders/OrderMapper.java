@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-@Mapper(componentModel = "spring", uses = {FastMoneyMapper.class, ProductMapper.class})
+@Mapper(componentModel = "spring", uses = {ProductMapper.class, FastMoneyMapper.class})
 public abstract class OrderMapper {
 
     @Autowired
@@ -33,30 +33,15 @@ public abstract class OrderMapper {
                 .map(IdDTO::getId)
                 .map(productService::getById)
                 .collect(toList());
-        return new Order(products);
+        //should add stuff here if I want to show more to the client (
+        var order = new Order();
+        order.setTimestamp(Instant.now());
+        order.setProducts(products);
+        return order;
     }
 
-    /*@Mapping(target = "id", source = "id")
-    @IterableMapping(elementTargetType = IdDTO.class)
-    public abstract OrderDTO toOrderDTO(Order order);*/
-
-    public OrderDTO toOrderDTO(Order order) {
-        var orderDTO = new OrderDTO();
-        List<IdDTO> idDTOs = order.getProducts().stream()
-                .map(Product::getId)
-                .map(id -> {
-                    var idDTO = new IdDTO();
-                    idDTO.setId(id);
-                    return idDTO;
-                })
-                .collect(toList());
-        orderDTO.setId(order.getId());
-        orderDTO.setProducts(idDTOs);
-        return orderDTO;
-    }
-
-    @IterableMapping(elementTargetType = OrderDTO.class)
-    public abstract List<OrderDTO> toOrderDTOList(List<Order> orders);
+    @Mapping(target = "orderPlaced", source = "timestamp")
+    public abstract OrderDTO toOrderDTO(Order order);
 
     public abstract PagedResultDTO<OrderDTO> toOrderPagedResultDTO(PagedResult<Order> orderPagedResult);
 }

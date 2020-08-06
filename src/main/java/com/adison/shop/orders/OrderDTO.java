@@ -15,4 +15,5 @@ public class OrderDTO {
 
     private Long id;
     private List<IdDTO> products;
+    private Instant orderPlaced;
 }
