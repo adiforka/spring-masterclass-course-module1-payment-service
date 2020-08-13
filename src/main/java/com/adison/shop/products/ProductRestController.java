@@ -6,6 +6,7 @@ import com.adison.shop.common.web.UriBuilder;
 import com.adison.shop.users.UserDTO;
 import com.adison.shop.users.UserRestController;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

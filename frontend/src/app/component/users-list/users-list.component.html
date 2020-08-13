@@ -1,3 +1,6 @@
+<!--we have to implement refresh users in the component's ts class-->
+<app-user-search (search)="refreshUsers($event)"></app-user-search>
+
 <!--if not null. if pagedResult null, if returns false on condition and this is not rendered-->
 <div *ngIf="pagedResult">
   <table class="table">

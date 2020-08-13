@@ -1,7 +1,6 @@
 package com.adison.shop;
 
 import com.adison.shop.orders.Order;
-import com.adison.shop.orders.OrderDTO;
 import com.adison.shop.orders.OrderMapper;
 import com.adison.shop.orders.OrderService;
 import com.adison.shop.payments.LocalMoney;
@@ -9,16 +8,12 @@ import com.adison.shop.products.Product;
 import com.adison.shop.products.ProductService;
 import com.adison.shop.products.ProductType;
 import lombok.extern.java.Log;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
-import static org.springframework.boot.SpringApplication.*;
+import static org.springframework.boot.SpringApplication.run;
 
 @Log
 @SpringBootApplication
@@ -41,9 +36,8 @@ public class ShopApplication {
     public static void main(String[] args) {
         var ctx = run(ShopApplication.class, args);
 
-        var orderService = ctx.getBean(OrderService.class);
+        /*var orderService = ctx.getBean(OrderService.class);
         var productService = ctx.getBean(ProductService.class);
-        var orderMapper = ctx.getBean(OrderMapper.class);
 
         productService.add(PRODUCT1);
         productService.add(PRODUCT2);
@@ -59,10 +53,7 @@ public class ShopApplication {
                 .build();
 
         orderService.add(order);
-        orderService.add(order2);
+        orderService.add(order2);*/
 
-        var orderPagedResult = orderService.getAll(0, 10);
-        var orderPagedResultDTO = orderMapper.toOrderPagedResultDTO(orderPagedResult);
-        log.info(orderPagedResultDTO.toString());
     }
 }

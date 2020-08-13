@@ -23,7 +23,7 @@ public interface ProductMapper {
     @IterableMapping(elementTargetType = ProductDTO.class)
     List<ProductDTO> toProductDTOs(List<Product> products);
 
-    @IterableMapping(elementTargetType = Product.class)
+    @InheritInverseConfiguration
     List<Product> toProducts(List<ProductDTO> productDTOS);
 
     PagedResultDTO<ProductDTO> toProductsPageDTO(PagedResult<Product> productsPage);
