@@ -12,6 +12,7 @@ import { UsersListComponent } from './component/users-list/users-list.component'
 import { UserFormComponent } from './component/user-form/user-form.component';
 import { ProductsListComponent } from './component/products-list/products-list.component';
 import { ProductFormComponent } from './component/product-form/product-form.component';
+import { UserSearchComponent } from './component/user-search/user-search.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ProductFormComponent } from './component/product-form/product-form.comp
     UsersListComponent,
     UserFormComponent,
     ProductsListComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    UserSearchComponent
   ],
   imports: [
     BrowserModule,

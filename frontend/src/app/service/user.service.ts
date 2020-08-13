@@ -18,7 +18,7 @@ export class UserService {
   }
 
   //default values for parameters
-  getUsers(pageNumber = 0, pageSize = 5): Observable<PagedResultModel<UserModel>> {
+  getUsers(lastNameFragment = "", pageNumber = 0, pageSize = 5): Observable<PagedResultModel<UserModel>> {
     //how we pass parameters from the request to the method
     const params = { pageNumber: `${pageNumber}`, pageSize: `${pageSize}`, lastNameFragment: "" };
     return this.httpClient.get<PagedResultModel<UserModel>>(this.api.users, { params: params } );
