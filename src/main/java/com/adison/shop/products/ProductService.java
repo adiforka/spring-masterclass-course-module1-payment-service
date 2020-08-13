@@ -28,6 +28,19 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    //@CacheEvict(cacheNames = "productsNames")
+    //refactor?
+    public Product update(Product product, Long id) {
+        Product productToUpdate = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        productToUpdate.setName(product.getName());
+        productToUpdate.setPrice(product.getPrice());
+        productToUpdate.setDescription(product.getDescription());
+        productToUpdate.setType(product.getType());
+        //updated product gets force-flushed to db
+        productRepository.flush();
+        return productToUpdate;
+    }
+
     public Product getById(Long id) {
         return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }

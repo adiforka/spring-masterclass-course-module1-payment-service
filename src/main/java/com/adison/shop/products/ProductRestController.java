@@ -40,6 +40,21 @@ public class ProductRestController {
         return ResponseEntity.created(locationUri).build();
     }
 
+    @PutMapping(value = "{id}")
+    public ResponseEntity<ProductDTO> updateProduct(
+            @Valid @RequestBody ProductDTO productDTO,
+            @PathVariable Long id,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            ResponseEntity.badRequest().build();
+        }
+        var productDetails = productMapper.toProduct(productDTO);
+        productService.update(productDetails, id);
+        var locationUri = uriBuilder.requestUriWithId(id);
+        return ResponseEntity.created(locationUri).build();
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         var product = productService.getById(id);
