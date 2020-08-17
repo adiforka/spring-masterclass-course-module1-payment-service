@@ -94,6 +94,12 @@ public class ProductRestController {
     }
 
     //homework REST part 3
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteProductById(@PathVariable Long id) {
+        productService.deleteById(id);
+        return ResponseEntity.ok().body(String.format("Product id: %d has been deleted", id));
+    }
+
     @PostMapping(value = "{id}/files")
     public String submit(@PathVariable Long id, @RequestBody MultipartFile file) {
         //save to some storage

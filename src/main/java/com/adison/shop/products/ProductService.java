@@ -56,4 +56,8 @@ public class ProductService {
         Page<Product> productPage = productRepository.findProductByType(productType, PageRequest.of(pageNumber, pageSize));
         return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());
     }
+
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
 }
