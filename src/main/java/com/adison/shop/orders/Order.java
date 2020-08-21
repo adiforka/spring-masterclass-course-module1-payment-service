@@ -3,7 +3,6 @@ package com.adison.shop.orders;
 import com.adison.shop.payments.LocalMoney;
 import com.adison.shop.payments.Payment;
 import com.adison.shop.products.Product;
-import com.adison.shop.users.User;
 import lombok.*;
 import org.javamoney.moneta.FastMoney;
 

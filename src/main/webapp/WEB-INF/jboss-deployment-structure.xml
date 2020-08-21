@@ -1,0 +1,8 @@
+<!--"official" fix for incompatibility of Wildfly with J9+-->
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <module name="jdk.unsupported"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

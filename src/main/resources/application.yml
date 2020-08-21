@@ -18,7 +18,7 @@ spring:
     basename: messages #default value
   mvc:
     view:
-      prefix: /WEB-INF/views/
+      prefix: /WEB-INF/jsp/
       suffix: .jsp
 apiPrefix: api
 

@@ -32,7 +32,8 @@ public class OrderService {
     }
 
     public void update(Order order) {
-        //JpaRepository in SD uses save to update rows in db if an element already exists
+        // JpaRepository in SD uses save to update rows on managed entities (when it flushed changes)
+        // in db if an element already exists
         orderRepository.save(order);
     }
 

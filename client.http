@@ -1,55 +1,104 @@
-POST http://localhost:8080/api/users
+POST http://localhost:8080/shop-0.0.1-SNAPSHOT/api/users
 Content-Type: application/json
 
 {
-  "firstName": "Jan",
-  "lastName": "Kowalski",
-  "emailAddress": "jan.kowalski@trainig.pl"
+  "firstName": "Mitch",
+  "lastName": "Buchanan",
+  "emailAddress": "mitch.buchanan@baywatch.org"
 }
 
 ###
 
-GET http://localhost:8080/api/users/1
-Accept: application/json
-
-###
-
-GET http://localhost:8080/api/users?lastNameFragment=Kow
-Accept: application/json
-
-###
-
-POST http://localhost:8080/api/products
+POST http://localhost:8080/shop-0.0.1-SNAPSHOT/api/users
 Content-Type: application/json
 
 {
-  "name": "Microservices in practice (e-book)",
-  "description": "Book",
-  "price": "100.99 PLN",
-  "type": "EBOOK"
+  "firstName": "Stacy",
+  "lastName": "Sanchez",
+  "emailAddress": "stacy.sanchez@baywatch.org"
 }
 
 ###
 
-POST http://localhost:8080/api/orders
+GET http://localhost:8080/shop-0.0.1-SNAPSHOT/api/users/1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/shop-0.0.1-SNAPSHOT/api/users?lastNameFragment
+Accept: application/json
+
+###
+
+POST http://localhost:8080/shop-0.0.1-SNAPSHOT/api/products
+Content-Type: application/json
+
+{
+  "name": "20 Swell Dildos",
+  "description": "Sex toys for the masses",
+  "price": "99.99 USD",
+  "type": "MUSIC"
+}
+
+###
+
+POST http://localhost:8080/shop-0.0.1-SNAPSHOT/api/products
+Content-Type: application/json
+
+{
+  "name": "14 Bad Men",
+  "description": "Ancient American Cinema",
+  "price": "19.99 USD",
+  "type": "VIDEO"
+}
+
+###
+
+PUT http://localhost:8080/shop-0.0.1-SNAPSHOT/api/products/1
+Content-Type: application/json
+
+{
+  "name": "21 Bad Men",
+  "description": "Modern Belgian Cinema",
+  "price": "29.99 USD",
+  "type": "VIDEO"
+}
+
+###
+
+DELETE http://localhost:8080/shop-0.0.1-SNAPSHOT/api/products/1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/shop-0.0.1-SNAPSHOT/api/products
+Accept: application/json
+
+###
+
+POST http://localhost:8080/shop-0.0.1-SNAPSHOT/api/orders
 Content-Type: application/json
 
 {
   "products": [
     {
       "id": 1
+    },
+    {
+      "id": 2
     }
   ]
 }
 
 ###
 
-GET http://localhost:8080/api/products
+GET http://localhost:8080/shop-0.0.1-SNAPSHOT/api/orders/3
 Accept: application/json
 
 ###
 
-POST http://localhost:8080/api/products/1/files
+
+POST http://localhost:8080/shop-0.0.1-SNAPSHOT/api/products/1/files
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary

@@ -40,8 +40,9 @@ public abstract class OrderMapper {
         return order;
     }
 
-    @Mapping(target = "orderPlaced", source = "timestamp")
+    @Mapping(target = "timePlaced", source = "timestamp")
     public abstract OrderDTO toOrderDTO(Order order);
+
 
     public abstract PagedResultDTO<OrderDTO> toOrderPagedResultDTO(PagedResult<Order> orderPagedResult);
 }

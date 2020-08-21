@@ -11,11 +11,14 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.adison.shop</groupId>
-    <artifactId>spring-masterclass-module1</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <!--when preparing a self-contained jar (fat jar), so no longer need war packaging-->
+    <packaging>war</packaging>
 
-    <!--now preparing a self-contained jar (fat jar), so no longer need war packaging-->
+    <groupId>com.adison.shop</groupId>
+    <artifactId>shop</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>shop</name>
 
     <properties>
         <java.version>14</java.version>
@@ -23,20 +26,28 @@
         <swagger.version>2.9.2</swagger.version>
     </properties>
 
-    <!--replacing maven-surefire with spring-boot maven plugin. version inherited from parent-->
-    <build>
+    <!--replacing maven-surefire with spring-boot maven plugin. version inherited from parent
+    lets us build a fatjar with tomcat in it. disabled to use Wildfly without conflict-->
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <!--now excluding tomcat-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -86,6 +97,12 @@
             <type>pom</type>
         </dependency>
         <dependency>
+            <!--to use jsp with SB-->
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <!--validator here-->
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -104,9 +121,10 @@
             <version>1.2</version>
         </dependency>
         <dependency>
-            <!--to use jsp with SB-->
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
+            <!--needed for compilation only, later provided by wildfly-->
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -120,6 +138,10 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.reactivestreams</groupId>
+            <artifactId>reactive-streams</artifactId>
         </dependency>
     </dependencies>
 

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.naming.NamingException;
 import java.util.Locale;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ExceptionDTO> onProductNotFoundException(ProductNotFoundException ex, Locale locale) {
+        return createResponse(ex, NOT_FOUND, locale);
+    }
+
+    @ExceptionHandler(NamingException.class)
+    public ResponseEntity<ExceptionDTO> onNamingException(NamingException ex, Locale locale) {
         return createResponse(ex, NOT_FOUND, locale);
     }
 

@@ -23,8 +23,8 @@ export class UserSearchComponent {
     //use pipe to involve lambda-taking functions like filter/map/etc
       .pipe(debounceTime(500))
       .pipe(filter(text => text.length >= 3))
-      .subscribe(text => this.searchUsers(text), (error) => console.log(error));
-      
+      .subscribe(text => this.searchUsers(text), (error) => console.log(error), () => console.log("Completed"));
+
   }
    private searchUsers(text: string) {
     const result = this.userService.getUsers(text);

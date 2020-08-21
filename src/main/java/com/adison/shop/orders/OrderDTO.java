@@ -1,12 +1,9 @@
 package com.adison.shop.orders;
 
 import com.adison.shop.common.web.IdDTO;
-import com.adison.shop.products.ProductDTO;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 
-import java.sql.Timestamp;
+import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
 import java.util.List;
 
@@ -14,6 +11,7 @@ import java.util.List;
 public class OrderDTO {
 
     private Long id;
+    @NotEmpty
     private List<IdDTO> products;
-    private Instant orderPlaced;
+    private Instant timePlaced;
 }
