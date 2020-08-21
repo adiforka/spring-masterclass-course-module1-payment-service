@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 //got this from the course: maps custom object of type FastMoney to a db table with 2 columns, and reads back from that
-//table, those colums to compose a FastMoney instance
+//table, those columns to compose a FastMoney instance
 public class FastMoneyUserType implements CompositeUserType {
 
     public String[] getPropertyNames() {
@@ -66,7 +66,7 @@ public class FastMoneyUserType implements CompositeUserType {
 
     @Override
     public void nullSafeSet(PreparedStatement preparedStatement, Object value, int property, SharedSessionContractImplementor session) throws SQLException {
-        if (null == value) {
+        if (value == null) {
             preparedStatement.setNull(property, StringType.INSTANCE.sqlType());
             preparedStatement.setNull(property + 1, DoubleType.INSTANCE.sqlType());
         } else {

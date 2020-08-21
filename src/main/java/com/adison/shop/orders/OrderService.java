@@ -2,15 +2,12 @@ package com.adison.shop.orders;
 
 import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.validator.Validate;
-import com.adison.shop.common.web.PagedResultDTO;
 import com.adison.shop.payments.Payment;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 @Transactional
@@ -19,7 +16,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public Order add(@Validate(exception = InvalidOrderException.class) Order order) {
+    public Order add(@Validate(exceptionType = InvalidOrderException.class) Order order) {
         order.setTimestamp(Instant.now());
         order.setPayment(Payment.builder()
                 .id(UUID.randomUUID().toString())

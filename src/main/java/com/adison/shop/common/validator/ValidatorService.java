@@ -2,6 +2,7 @@ package com.adison.shop.common.validator;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.lang.reflect.Constructor;

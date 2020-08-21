@@ -33,7 +33,7 @@ public class ModelValidator {
     private void validate(MethodSignature methodSignature, Object argument, int index) {
         Annotation[] perArgAnnotations = getPerArgAnnotations(methodSignature, index);
         Optional<Validate> optionalValidateAnno = getThisArgsValidateAnnotations(perArgAnnotations);
-        optionalValidateAnno.ifPresent(validate -> validatorService.validate(argument, validate.exception()));
+        optionalValidateAnno.ifPresent(validate -> validatorService.validate(argument, validate.exceptionType()));
     }
 
     private Annotation[] getPerArgAnnotations(MethodSignature methodSignature, int argIndex) {
