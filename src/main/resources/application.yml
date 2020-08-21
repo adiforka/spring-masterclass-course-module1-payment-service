@@ -20,6 +20,17 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: adiforka@gmail.com
+    password: .an.aT83..
+    #password encoding
+    tls: true
+    properties.mail.stmp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
 apiPrefix: api
 
 

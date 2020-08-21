@@ -5,7 +5,11 @@ import com.adison.shop.common.validator.Validate;
 import com.adison.shop.payments.Payment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.UUID;
@@ -15,6 +19,7 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final JavaMailSender mailSender;
 
     public Order add(@Validate(exceptionType = InvalidOrderException.class) Order order) {
         order.setTimestamp(Instant.now());
@@ -23,12 +28,25 @@ public class OrderService {
                 .timestamp(Instant.now())
                 .money(order.getTotalPrice())
                 .build());
+        // move to aspect
+        sendEmail();
         return orderRepository.save(order);
     }
 
     public Order getById(Long orderId) throws OrderNotFoundException {
         return orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
+    }
+
+    private void sendEmail() {
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            var messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom("adiforka@gmail.com");
+            messageHelper.setTo("the.adicide@gmail.com");
+            messageHelper.setSubject("New order");
+            messageHelper.setText("New order has been placed", true);
+        };
+        mailSender.send(messagePreparator);
     }
 
     public void update(Order order) {
