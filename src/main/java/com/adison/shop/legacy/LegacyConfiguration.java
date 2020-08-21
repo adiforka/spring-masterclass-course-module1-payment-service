@@ -49,4 +49,9 @@ public class LegacyConfiguration {
     public JmsSender messageSender(JmsTemplate jmsTemplate, Queue messageQueue) {
         return new JmsSender(jmsTemplate, messageQueue);
     }
+
+    @Bean
+    public MessageService messageService() {
+        return new MessageService();
+    }
 }
