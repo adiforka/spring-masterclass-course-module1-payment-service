@@ -106,3 +106,10 @@ Content-Disposition: form-data; name="file"; filename="pom.xml"
 
 < ./pom.xml
 --WebAppBoundary--
+
+### testing remote component access
+
+GET http://localhost:8080/shop-0.0.1-SNAPSHOT/api/exchange-rate?value=0%20USD
+Accept: application/json
+
+###
