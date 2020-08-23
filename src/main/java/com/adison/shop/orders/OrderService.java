@@ -9,13 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.UUID;
-import java.util.logging.Level;
 
 @Transactional
 @Log
@@ -42,10 +39,10 @@ public class OrderService {
                 .orElseThrow(OrderNotFoundException::new);
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
-    public void printSummary() {
-        log.log(Level.INFO, "Placed orders " + orderRepository.count());
-    }
+//    @Scheduled(cron = "*/10 * * * * *")
+//    public void printSummary() {
+//        log.log(Level.INFO, "Placed orders " + orderRepository.count());
+//    }
 
     private void sendEmail() {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
