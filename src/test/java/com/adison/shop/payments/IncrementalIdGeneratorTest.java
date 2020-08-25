@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IncrementalIdGeneratorTest {
 
-    public static final String ID_FORMAT = "\\d{10}";
+    private static final String ID_FORMAT = "\\d{10}";
 
     private final IncrementalPaymentIdGenerator generator = new IncrementalPaymentIdGenerator();
 
@@ -24,7 +24,6 @@ public class IncrementalIdGeneratorTest {
     void shouldGenerateIdIncrementedByOneForConsecutiveCalls() {
         long testId1Value = Long.parseLong(generator.getNext());
         long testId2Value = Long.parseLong(generator.getNext());
-
         assertEquals(testId1Value + 1, testId2Value);
     }
 }

@@ -9,10 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.UUID;
+import java.util.logging.Level;
 
 @Transactional
 @Log
@@ -30,7 +32,6 @@ public class OrderService {
                 .money(order.getTotalPrice())
                 .build());
         // move to aspect
-        sendEmail();
         return orderRepository.save(order);
     }
 
@@ -39,20 +40,9 @@ public class OrderService {
                 .orElseThrow(OrderNotFoundException::new);
     }
 
-//    @Scheduled(cron = "*/10 * * * * *")
-//    public void printSummary() {
-//        log.log(Level.INFO, "Placed orders " + orderRepository.count());
-//    }
-
-    private void sendEmail() {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            var messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("adiforka@gmail.com");
-            messageHelper.setTo("adiforka@gmail.com");
-            messageHelper.setSubject("New order");
-            messageHelper.setText("New order has been placed", true);
-        };
-        mailSender.send(messagePreparator);
+    //@Scheduled(cron = "*/10 * * * * *")
+    public void printSummary() {
+        log.log(Level.INFO, "Placed orders " + orderRepository.count());
     }
 
     public void update(Order order) {
