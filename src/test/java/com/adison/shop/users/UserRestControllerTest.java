@@ -1,9 +1,5 @@
-package users;
+package com.adison.shop.users;
 
-import com.adison.shop.users.User;
-import com.adison.shop.users.UserDTO;
-import com.adison.shop.users.UserMapper;
-import com.adison.shop.users.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,51 +9,62 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest
+@WebMvcTest(UserRestController.class)
 @ExtendWith(SpringExtension.class)
-public class UserControllerTest {
+class UserRestControllerTest {
 
-    private static final long USER_ID = 1;
+    private static final Long USER_ID = 1L;
 
     private final User user = new User();
-    @MockBean
-    private UserMapper userMapper;
-    @MockBean
-    private UserService userService;
+    private final UserDTO userDTO = new UserDTO();
+
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private UserMapper userMapper;
+
+
     @BeforeEach
     void setUp() {
-        user.setId(1L);
-        user.setFirstName("Adi");
-        user.setLastName("La Poope");
-        user.setEmail("adi.lapoope@gmail.com");
+        user.setId(USER_ID);
+        user.setFirstName("Charlie");
+        user.setLastName("Runkle");
+        user.setEmail("charlie.runkle@whatsmyname.com");
 
-        UserDTO userDTO = new UserDTO();
         userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
         userDTO.setEmailAddress(user.getEmail());
 
         when(userMapper.toUserDTO(user)).thenReturn(userDTO);
         when(userService.getById(USER_ID)).thenReturn(user);
     }
 
-    /*@Test
-    void shouldReturnUserById() throws Exception {
-        mockMvc.perform(get("/api/users/1")
-                .accept(MediaType.APPLICATION_JSON))
+    @Test
+    void shouldGetUserById() throws Exception {
+        mockMvc.perform(get("/api/users/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
-                .andExpect(jsonPath("$.lastName", is(user.getLastName())))
-                .andExpect(jsonPath("$.email", is(user.getEmail())));
-    }*/
+                .andExpect(content().json("""
+                                {
+                                    "firstName": "Charlie", 
+                                    "lastName": "Runkle", 
+                                    "emailAddress": "charlie.runkle@whatsmyname.com"
+                                }
+                                """));
 
+
+    }
 
 }
