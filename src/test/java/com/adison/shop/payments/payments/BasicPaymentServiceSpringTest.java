@@ -1,45 +1,59 @@
-package com.adison.shop.payments;
+package com.adison.shop.payments.payments;
 
+import com.adison.shop.payments.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.AdditionalAnswers.*;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class BasicPaymentServiceTest {
+@ExtendWith(SpringExtension.class)
+public class BasicPaymentServiceSpringTest {
 
     private static final String PAYMENT_ID = "1";
     private static final PaymentRequest PAYMENT_REQUEST = PaymentRequest.builder()
             .money(LocalMoney.of(10_000))
             .build();
 
-    @Mock
-    private PaymentIdGenerator idGenerator;
-    @Mock
+    @MockBean
+    private PaymentIdGenerator paymentIdGenerator;
+    @MockBean
     private PaymentRepository paymentRepository;
-    @Mock
-    private ApplicationEventPublisher eventPublisher;
+    @Autowired
+    private PaymentService paymentService;
     private Payment payment;
+
+    @TestConfiguration
+    static class TestConfig {
+
+        @Bean
+        public PaymentService paymentService(PaymentIdGenerator incrementalPaymentIdGenerator,
+                                             PaymentRepository paymentRepository) {
+            return new BasicPaymentService(incrementalPaymentIdGenerator, paymentRepository);
+        }
+    }
 
     @BeforeEach
     void setup() {
-        BasicPaymentService service = new BasicPaymentService(idGenerator, paymentRepository, eventPublisher);
-        when(idGenerator.getNext()).thenReturn(PAYMENT_ID);
+        when(paymentIdGenerator.getNext()).thenReturn(PAYMENT_ID);
         when(paymentRepository.save(any(Payment.class))).then(returnsFirstArg());
         //the tested method is called here, unique call for every test case
-        payment = service.process(PAYMENT_REQUEST);
+        payment = paymentService.process(PAYMENT_REQUEST);
     }
 
     @DisplayName("Should assign generated id to created payment")
@@ -70,11 +84,5 @@ public class BasicPaymentServiceTest {
     @Test
     void shouldCallSavePassingInCreatedPayment() {
         verify(paymentRepository).save(any());
-    }
-
-    @DisplayName("should call event publisher publish event in process")
-    @Test
-    void shouldCallEventPublisher() {
-        verify(eventPublisher).publishEvent(any());
     }
 }

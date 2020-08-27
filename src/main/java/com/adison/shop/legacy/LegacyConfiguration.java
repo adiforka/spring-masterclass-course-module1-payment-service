@@ -11,7 +11,6 @@ import org.springframework.jndi.JndiTemplate;
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
 import javax.naming.NamingException;
-import javax.sql.rowset.CachedRowSet;
 
 @EnableJms // from spring-jms
 @Configuration

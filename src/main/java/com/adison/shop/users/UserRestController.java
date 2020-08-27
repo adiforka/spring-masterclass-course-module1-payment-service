@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -43,7 +42,7 @@ public class UserRestController {
     //we could return a User and Spring would take that as an OK
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         var user = userService.getById(id);
-        var userDTO = userMapper.toUserTransferObject(user);
+        var userDTO = userMapper.toUserDTO(user);
         //generating links inside the body of the response with hateoas
         userDTO.add(linkTo(methodOn(UserRestController.class).getUser(id)).withSelfRel());
         return ResponseEntity.ok(userDTO);

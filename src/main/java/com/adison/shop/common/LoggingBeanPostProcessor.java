@@ -1,7 +1,9 @@
 package com.adison.shop.common;
 
+import com.adison.shop.common.retry.MethodExecutor;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 @Log

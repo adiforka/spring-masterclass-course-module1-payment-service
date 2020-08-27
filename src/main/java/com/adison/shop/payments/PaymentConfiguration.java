@@ -22,14 +22,19 @@ public class PaymentConfiguration {
     //implementation and automatically treat it as a bean
 
     @Bean
-    public BasicPaymentService basicPaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
-                                             PaymentRepository paymentRepository,
-                                             ApplicationEventPublisher eventPublisher) {
-        return new BasicPaymentService(uuidPaymentIdGenerator, paymentRepository, eventPublisher);
+    public PaymentService basicPaymentService(PaymentIdGenerator uuidPaymentIdGenerator,
+                                             PaymentRepository paymentRepository) {
+        return new BasicPaymentService(uuidPaymentIdGenerator, paymentRepository);
     }
 
     @Bean
-    public PaymentConsoleLogger paymentConsoleLogger(MessageSource messageSource) {
-        return new PaymentConsoleLogger(messageSource);
+    public PaymentConsoleLogger paymentConsoleLogger(ApplicationEventPublisher eventPublisher, MessageSource messageSource) {
+        return new PaymentConsoleLogger(messageSource, eventPublisher);
     }
+
+    @Bean
+    public PaymentStatusChangeListener paymentStatusChangeListener() {
+        return new PaymentStatusChangeListener();
+    }
+
 }

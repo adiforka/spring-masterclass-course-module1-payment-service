@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import static org.springframework.boot.SpringApplication.run;
-
 @Log
 @SpringBootApplication
 public class ShopApplication extends SpringBootServletInitializer {

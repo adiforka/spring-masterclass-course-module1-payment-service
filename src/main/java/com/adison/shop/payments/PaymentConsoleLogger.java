@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 
@@ -19,6 +20,7 @@ public class PaymentConsoleLogger implements Ordered {
     private static final String MESSAGE_KEY = "paymentInfo";
 
     private final MessageSource messageSource;
+    private final ApplicationEventPublisher eventPublisher;
 
     //pointcut == named designator
     @Pointcut("@annotation(LogPayments)")
@@ -44,6 +46,11 @@ public class PaymentConsoleLogger implements Ordered {
     @AfterReturning(value = "logPayments()", returning = "payment")
     public void log(Payment payment) {
         log.info(createLogEntry(payment));
+    }
+
+    @AfterReturning(value = "logPayments()", returning = "payment")
+    public void onPaymentStatusChange(Payment payment) {
+        eventPublisher.publishEvent(new PaymentStatusChangedEvent(this, payment));
     }
 
     private String createLogEntry(Payment payment) {

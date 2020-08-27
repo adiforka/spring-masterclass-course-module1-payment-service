@@ -21,7 +21,7 @@ public class LegacyTestController {
     @GetMapping("${apiPrefix}/exchange-rate")
     public double getExchangeRate(@RequestParam String value) throws NamingException {
         ExchangeRate exchangeRate = jndiTemplate.lookup(
-                "java:global/shop-0.0.1-SNAPSHOT/BasicExchangeRate",
+                "java:global/BasicExchangeRate",
                 ExchangeRate.class);
         return exchangeRate.get(FastMoney.parse(value));
     }

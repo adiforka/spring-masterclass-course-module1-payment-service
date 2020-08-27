@@ -1,5 +1,6 @@
-package com.adison.shop.payments;
+package com.adison.shop.payments.payments;
 
+import com.adison.shop.payments.UUIDPaymentIdGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

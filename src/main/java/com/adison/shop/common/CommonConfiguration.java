@@ -38,8 +38,11 @@ public class CommonConfiguration {
         return new ModelValidator(validatorService);
     }
 
+    //if I don't make this static, the creation of the bean instance will require the creation of a CommonConfiguration
+    //instance, which won't be able to be processed by the LoggingBeanPostProcessor. If I make the method static,
+    // the CC bean will be created, but only after the LPP is created in the container to log its creation
     //@Bean
-    public BeanPostProcessor beanPostProcessor() {
+    public static BeanPostProcessor beanPostProcessor() {
         return new LoggingBeanPostProcessor();
     }
 
