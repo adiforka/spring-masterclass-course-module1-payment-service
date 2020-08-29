@@ -15,5 +15,4 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
     //for more complex queries, use @Query with JPQL. this adds query validation too from SD aww <3
     @Query("select p from Product p where p.type = :type")
     Page<Product> findProductByType(@Param("type") ProductType type, Pageable pageRequest); //exception if PageRequest used
-
 }
