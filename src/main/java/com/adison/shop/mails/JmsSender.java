@@ -1,4 +1,4 @@
-package com.adison.shop.legacy;
+package com.adison.shop.mails;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.core.JmsTemplate;

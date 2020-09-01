@@ -31,7 +31,6 @@ public class OrderService {
                 .timestamp(Instant.now())
                 .money(order.getTotalPrice())
                 .build());
-        // move to aspect
         return orderRepository.save(order);
     }
 
