@@ -1,8 +1,8 @@
 package com.adison.shop.users;
 
 import com.adison.shop.common.PagedResult;
+
 import com.adison.shop.common.TextSource;
-import com.adison.shop.mails.MailMessage;
 import com.adison.shop.mails.MailService;
 import com.adison.shop.tokens.Token;
 import com.adison.shop.tokens.TokenService;
@@ -39,8 +39,8 @@ public class UserService {
 
     public User add(User user) {
         User savedUser = userRepository.save(user);
-        MailMessage mailMessage = prepareConfirmationEmail(savedUser, ACTIVATION_EMAIL_TEMPLATE);
-        mailService.send(mailMessage);
+        /*MailMessage mailMessage = prepareConfirmationEmail(savedUser, ACTIVATION_EMAIL_TEMPLATE);
+        mailService.send(mailMessage);*/
         return savedUser;
     }
 
@@ -74,11 +74,11 @@ public class UserService {
         return new PagedResult<>(usersPage.getContent(), pageNumber, usersPage.getTotalPages());
     }
 
-    private MailMessage prepareConfirmationEmail(User user, String templateName) {
+    /*private MailMessage prepareConfirmationEmail(User user, String templateName) {
         Token token = tokenService.createToken(user.getId());
         Map<String, Object> variables = Map.of(TOKEN_KEY, token.getValue(), USER_ID_KEY, user.getId());
         String subject = textSource.getText(SUBJECT_KEY, defaultLanguage);
         String text = textSource.getTextFromTemplate(templateName, variables, defaultLanguage);
         return new MailMessage(user.getEmail(), subject, text);
-    }
+    }*/
 }

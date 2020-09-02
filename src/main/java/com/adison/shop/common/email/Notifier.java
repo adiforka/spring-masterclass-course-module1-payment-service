@@ -1,5 +1,6 @@
 package com.adison.shop.common.email;
 
+
 import com.adison.shop.mails.MailMessage;
 import com.adison.shop.mails.MailService;
 import com.adison.shop.orders.Order;
@@ -7,9 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 
 @Aspect
 @RequiredArgsConstructor

@@ -48,6 +48,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("index.html").setViewName("index");
+        registry.addViewController("login.html").setViewName("login-form");
     }
 
     //with SB added we add this for hypermedia:
