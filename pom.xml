@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <!--when preparing a self-contained jar (fat jar), so no longer need war packaging-->
+    <!--when preparing a self-contained jar (fat jar), no longer need war packaging-->
     <packaging>war</packaging>
 
     <groupId>com.adison.shop</groupId>
@@ -64,6 +64,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 //defined in yml config
 @RequestMapping("${apiPrefix}/users")
 @RestController
@@ -37,13 +38,25 @@ public class UserRestController {
         return ResponseEntity.created(locationUri).build();
     }
 
+    // should be called from a frontend page, and should use PATCH or POST. or PUT. but we're using a non-canonical
+    // GET to handle a request for a view rendered that the user sends by clicking on the link supplied in the registration
+    // email to them.
+
+    // instructor tip: send the GET from the registration link to frontend, provide the view there and send a request
+    // from there with AJAX to the back end using a POST, PATCH, or PUT.
+    @RequestMapping(value = "/not-active/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<Void> activateUser(@PathVariable Long userId, @RequestParam("token") String tokenValue) {
+        userService.activateUser(userId, tokenValue);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("{id}")
-    //instead of returning a response entity with a status OK on it,
-    //we could return a User and Spring would take that as an OK
+    // instead of returning a response entity with a status OK on it,
+    // we could return a User and Spring would take that as an OK
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         var user = userService.getById(id);
         var userDTO = userMapper.toUserDTO(user);
-        //generating links inside the body of the response with hateoas
+        // generating links inside the body of the response with hateoas
         userDTO.add(linkTo(methodOn(UserRestController.class).getUser(id)).withSelfRel());
         return ResponseEntity.ok(userDTO);
     }
@@ -55,23 +68,6 @@ public class UserRestController {
             @RequestParam(defaultValue = "5") int pageSize
     ) {
         PagedResult<User> usersPage = userService.getByLastName(lastNameFragment, pageNumber, pageSize);
-       return userMapper.toUserDTOsPage(usersPage);
+        return userMapper.toUserDTOsPage(usersPage);
     }
-
-    //below is a local, class-level exception handler
-
-    //intercepts exceptions from a controller class and returns them to the client (remember to annotate!)
-    //uses an exception hierarchy, where this ex will be thrown if its subclass instance is thrown and there's no
-    //specialized method to handle that
-
-    //a source. we can be more informative by sending back an
-    //exceptionTransferObject in the body of the response. 404 may mean the client misspelled the name of the resource
-    //which nonetheless exists
-    /*@ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ExceptionDTO> onUserNotFoundException(UserNotFoundException exception) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ExceptionDTO("User not found"));
-
-    }*/
 }

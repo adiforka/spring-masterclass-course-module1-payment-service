@@ -5,12 +5,16 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+import java.time.Instant;
+
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class ExceptionDTO {
 
     @NonNull
     private String description;
-    //could have a timestamp here
+    @NonNull
+    private Instant instant;
 }
+

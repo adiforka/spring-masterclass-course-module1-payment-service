@@ -36,6 +36,7 @@ public class ProductService {
         productToUpdate.setDescription(product.getDescription());
         productToUpdate.setType(product.getType());
         //updated product gets force-flushed to db
+        //try save and flush
         productRepository.flush();
         return productToUpdate;
     }

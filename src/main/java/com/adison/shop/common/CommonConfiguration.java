@@ -6,6 +6,7 @@ import com.adison.shop.common.validator.ModelValidator;
 import com.adison.shop.common.validator.ValidatorService;
 import com.adison.shop.mails.JmsSender;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -13,6 +14,7 @@ import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.thymeleaf.TemplateEngine;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
@@ -81,6 +83,11 @@ public class CommonConfiguration {
     @Bean
     public JmsSender jmsSender(JmsTemplate jmsTemplate, Queue messageQueue) {
         return new JmsSender(jmsTemplate, messageQueue);
+    }
+
+    @Bean
+    public TextSource textSource(MessageSource messageSource, TemplateEngine templateEngine) {
+        return new TextSource(messageSource, templateEngine);
     }
 
 

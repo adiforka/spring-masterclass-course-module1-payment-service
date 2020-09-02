@@ -1,8 +1,10 @@
 package com.adison.shop.common.web;
 
 import com.adison.shop.products.ProductNotFoundException;
+import com.adison.shop.tokens.TokenNotFoundException;
 import com.adison.shop.users.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
@@ -11,15 +13,20 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.naming.NamingException;
+import java.time.Instant;
 import java.util.Locale;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+// we can be more informative--than just sending back a 404--by putting an
+// ExceptionDTO in the body of the response. 404 may mean the client misspelled the name of the resource
+// which nonetheless exists
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
+    @Autowired
     private final MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
@@ -33,8 +40,14 @@ public class GlobalExceptionHandler {
         return createResponse(ex, NOT_FOUND, locale);
     }
 
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<ExceptionDTO> onTokenNotFoundException(TokenNotFoundException ex, Locale locale) {
+        return createResponse(ex, NOT_FOUND, locale);
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ExceptionDTO> onProductNotFoundException(ProductNotFoundException ex, Locale locale) {
+
         return createResponse(ex, NOT_FOUND, locale);
     }
 
@@ -53,6 +66,8 @@ public class GlobalExceptionHandler {
             description = exceptionName;
         }
         ex.printStackTrace();
-        return ResponseEntity.status(status).body(new ExceptionDTO(description));
+        return ResponseEntity
+                .status(status)
+                .body(new ExceptionDTO(description, Instant.now()));
     }
 }

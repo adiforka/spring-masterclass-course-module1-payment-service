@@ -1,6 +1,7 @@
 package com.adison.shop.users;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.Email;

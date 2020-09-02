@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+<p>
+    Hi,
+    To access your store account, please click on the following link:
+</p>
+<a th:href="'http://localhost:8080/shop/api/users/not-active/' + ${userId} + '?token=' + ${token}">Account activation</a>
+<p>
+    If you're not the person who registered, please ignore this message.
+</p>
+</body>
+</html>
