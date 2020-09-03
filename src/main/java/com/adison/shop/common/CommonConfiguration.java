@@ -5,10 +5,12 @@ import com.adison.shop.common.retry.MethodExecutor;
 import com.adison.shop.common.validator.ModelValidator;
 import com.adison.shop.common.validator.ValidatorService;
 import com.adison.shop.mails.JmsSender;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
@@ -53,11 +55,11 @@ public class CommonConfiguration {
         return new LoggingBeanPostProcessor();
     }
 
+    // added this to read preset no. of execution attempts from SB's main properties file (yml in our case)
     @Bean
-    public MethodExecutor methodExecutor() {
-        var methodExecutor = new MethodExecutor();
-        methodExecutor.setAttempts(5);
-        return methodExecutor;
+    public MethodExecutor methodExecutor(@Value("${methodExecutor.attempts}") int attempts) {
+        System.out.println("Creating bean method executor. Attempts set at: " + attempts);
+        return new MethodExecutor(attempts);
     }
 
     @Bean
