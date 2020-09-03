@@ -15,22 +15,19 @@ public class MethodExecutor {
 
     private final int attempts;
 
-    @Pointcut("@annotation(Retry)")
-    public void applyRetryAspect() {
-    }
-
-    @Around("applyRetryAspect()")
-    public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("@annotation(Retry)")
+    public Object execute(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         int currentAttempt = 0;
         Throwable throwable;
         do {
+            currentAttempt++;
+            log.info("Executing method: " + proceedingJoinPoint.getSignature().getName()
+                    + ", attempt: " + currentAttempt);
             try {
-                return joinPoint.proceed();
+                return proceedingJoinPoint.proceed();
             } catch (Throwable t) {
-                throwable = t;
+               throwable = t;
             }
-            ++currentAttempt;
-            log.info(String.format("%s execution attempts undertaken %d: ", joinPoint.getSignature().getName(), currentAttempt));
         } while (currentAttempt < attempts);
         throw throwable;
     }

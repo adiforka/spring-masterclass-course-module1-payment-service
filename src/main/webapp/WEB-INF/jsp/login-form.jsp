@@ -9,10 +9,12 @@
     <form method="post" action="login.html">
         <div class="form-group">
             <label for="login"><s:message code="login-form.login"/></label>
+            <!--name should be username by default-->
             <input id="login" class="form-control" name="username">
         </div>
         <div class="form-group">
             <label for="password"><s:message code="login-form.password"/></label>
+            <!--name should be password by default-->
             <input id="password" type="password" class="form-control" name="password"/>
         </div>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

@@ -45,7 +45,7 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
-    //@Cacheable(cacheNames = "productsNames" )
+    //@Cacheable(cacheNames = "productsNames")
     public PagedResult<Product> getAll(int pageNumber, int pageSize) {
         var productPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize));
         return new PagedResult<>(productPage.getContent(), pageNumber, productPage.getTotalPages());

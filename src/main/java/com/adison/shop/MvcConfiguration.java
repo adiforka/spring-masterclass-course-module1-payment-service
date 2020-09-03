@@ -61,13 +61,4 @@ public class MvcConfiguration implements WebMvcConfigurer {
         plugins.add(new CollectionJsonLinkDiscoverer());
         return new LinkDiscoverers(SimplePluginRegistry.create(plugins));
     }
-
-    @Bean
-    public ViewResolver internalResourceViewResolver() {
-        var viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("WEB-INF/jsp/");
-        viewResolver.setSuffix(".jsp");
-        viewResolver.setViewClass(JstlView.class);
-        return viewResolver;
-    }
 }
