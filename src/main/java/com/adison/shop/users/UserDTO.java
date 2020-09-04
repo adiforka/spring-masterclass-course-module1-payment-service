@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class UserDTO extends RepresentationModel<UserDTO> {
 
-    //we choose what fields we want visible to the client. we can also change field names
+    // we choose what fields we want visible to the client. we can also change field names
     @NotEmpty
     private String firstName;
     @NotEmpty
