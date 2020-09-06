@@ -29,4 +29,8 @@ public class User {
     //used with user activation
     private boolean enabled;
 
+    //sec
+    private String username;
+    private String passworrd;
+
 }
