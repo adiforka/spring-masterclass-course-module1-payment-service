@@ -51,8 +51,7 @@ public class ProductRestController {
         }
         var productDetails = productMapper.toProduct(productDTO);
         productService.update(productDetails, id);
-        var locationUri = uriBuilder.requestUriWithId(id);
-        return ResponseEntity.created(locationUri).build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}")

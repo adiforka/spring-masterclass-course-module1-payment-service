@@ -1,21 +1,16 @@
 package com.adison.shop.products;
 
 import com.adison.shop.payments.LocalMoney;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Objects;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.AdditionalAnswers.returnsArgAt;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,9 +22,11 @@ public class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+    @Mock
+    private ProductMapper productMapper;
     private ProductService productService;
 
-    private static final Product product1 = Product.builder()
+    private static final Product PRODUCT_1 = Product.builder()
             .id(PRODUCT1_ID)
             .name("ESP Eclipse II")
             .description("Single cutaway solid-body electric guitar")
@@ -37,7 +34,7 @@ public class ProductServiceTest {
             .type(ProductType.AUDIO)
             .build();
 
-    private static final Product product2 = Product.builder()
+    private static final Product PRODUCT_2 = Product.builder()
             .name("Gibson Les Paul Standard 2020")
             .description("Single cutaway solid-body electric guitar")
             .price(LocalMoney.of(2499.99))
@@ -46,7 +43,7 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService(productRepository);
+        productService = new ProductService(productRepository, productMapper);
     }
 
     @Test
@@ -54,25 +51,28 @@ public class ProductServiceTest {
         //given
         when(productRepository.save(any(Product.class))).then(returnsFirstArg());
         //when
-        Product addedProduct = productService.add(product1);
+        Product addedProduct = productService.add(PRODUCT_1);
         //then
-        assertEquals(product1, addedProduct);
+        assertEquals(PRODUCT_1, addedProduct);
     }
 
     @Test
     void shouldUpdateProductWhenValidProductAndIdGiven() {
         //given
         when(productRepository.save(any(Product.class))).then(returnsFirstArg());
-        when(productRepository.findById(PRODUCT1_ID)).thenReturn(Optional.ofNullable(product1));
-        productService.add(product1);
+        when(productRepository.findById(PRODUCT1_ID)).thenReturn(Optional.ofNullable(PRODUCT_1));
+        doCallRealMethod().when(productMapper).updateProduct(PRODUCT_2, PRODUCT_1);
+        productService.add(PRODUCT_1);
         //when
-        Product updatedProduct = productService.update(product2, PRODUCT1_ID);
-        //then (updates added product as an entity object, so don't need to check against product2, but that's my ref
-        assertNotNull(updatedProduct.getId());
-        assertEquals(product2.getName(), updatedProduct.getName());
-        assertEquals(product2.getPrice(), updatedProduct.getPrice());
-        assertEquals(product2.getDescription(), updatedProduct.getDescription());
-        verify(productRepository, atLeast(1)).flush();
+        Product updatedProduct = productService.update(PRODUCT_2, PRODUCT1_ID);
+        //then
+        assertNotNull(updatedProduct);
+        assertEquals(PRODUCT_2.getName(), updatedProduct.getName());
+        assertEquals(PRODUCT_2.getPrice(), updatedProduct.getPrice());
+        assertEquals(PRODUCT_2.getDescription(), updatedProduct.getDescription());
+
+        verify(productRepository).flush();
         verify(productRepository, atMost(1)).findById(anyLong());
+        verify(productMapper).updateProduct(any(Product.class), any(Product.class));
     }
 }

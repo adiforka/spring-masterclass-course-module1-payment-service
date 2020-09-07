@@ -37,15 +37,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // authorization
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .mvcMatchers("/**").hasRole("ADMIN")
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .mvcMatchers("/**").permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login.html")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout.html"))
-                .logoutSuccessUrl("/login.html");
+                .httpBasic();
     }
 }

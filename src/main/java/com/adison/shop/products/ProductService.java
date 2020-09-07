@@ -4,13 +4,10 @@ import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.retry.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Log
 @Transactional
@@ -18,6 +15,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     //@CacheEvict(cacheNames = "productsNames")
     @Retry
@@ -28,17 +26,12 @@ public class ProductService {
     }
 
     //@CacheEvict(cacheNames = "productsNames")
-    //refactor?
-    public Product update(Product product, Long id) {
-        Product productToUpdate = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
-        productToUpdate.setName(product.getName());
-        productToUpdate.setPrice(product.getPrice());
-        productToUpdate.setDescription(product.getDescription());
-        productToUpdate.setType(product.getType());
-        //updated product gets force-flushed to db
-        //try save and flush
+    public Product update(Product source, Long id) {
+        Product target = productRepository.findById(id)
+                .orElseThrow(ProductNotFoundException::new);
+        productMapper.updateProduct(source, target);
         productRepository.flush();
-        return productToUpdate;
+        return target;
     }
 
     public Product getById(Long id) {

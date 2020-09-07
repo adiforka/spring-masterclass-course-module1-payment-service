@@ -3,22 +3,21 @@ package com.adison.shop.products;
 import com.adison.shop.common.PagedResult;
 import com.adison.shop.common.web.FastMoneyMapper;
 import com.adison.shop.common.web.PagedResultDTO;
-import com.adison.shop.payments.LocalMoney;
-import org.javamoney.moneta.FastMoney;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
 import java.util.List;
-import java.util.Locale;
 
+@Component
 @Mapper(componentModel = "spring", uses = FastMoneyMapper.class)
 public interface ProductMapper {
 
     Product toProduct(ProductDTO productDTO);
 
     ProductDTO toProductDTO(Product product);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateProduct(Product product, @MappingTarget Product toUpdate);
 
     @IterableMapping(elementTargetType = ProductDTO.class)
     List<ProductDTO> toProductDTOs(List<Product> products);

@@ -1,7 +1,5 @@
 package com.adison.shop.products;
 
-import com.adison.shop.common.web.UriBuilder;
-import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class ProductConfiguration {
 
     @Bean
-    public ProductService productService(ProductRepository productRepository) {
-        return new ProductService(productRepository);
+    public ProductService productService(ProductRepository productRepository, ProductMapper productMapper) {
+        return new ProductService(productRepository, productMapper);
     }
 }
