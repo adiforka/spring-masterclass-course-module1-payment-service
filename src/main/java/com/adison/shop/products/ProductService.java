@@ -29,7 +29,7 @@ public class ProductService {
     public Product update(Product source, Long id) {
         Product target = productRepository.findById(id)
                 .orElseThrow(ProductNotFoundException::new);
-        productMapper.updateProduct(source, target);
+        productMapper.updateProductFromParam(source, target);
         productRepository.flush();
         return target;
     }

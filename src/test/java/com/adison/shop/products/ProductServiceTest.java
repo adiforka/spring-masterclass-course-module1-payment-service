@@ -9,8 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
-    private static final Long PRODUCT1_ID = 666L;
+    private static final Long PRODUCT_1_ID = 666L;
 
     @Mock
     private ProductRepository productRepository;
@@ -27,7 +26,7 @@ public class ProductServiceTest {
     private ProductService productService;
 
     private static final Product PRODUCT_1 = Product.builder()
-            .id(PRODUCT1_ID)
+            .id(PRODUCT_1_ID)
             .name("ESP Eclipse II")
             .description("Single cutaway solid-body electric guitar")
             .price(LocalMoney.of(1999.99))
@@ -48,31 +47,26 @@ public class ProductServiceTest {
 
     @Test
     void shouldAddProduct() {
-        //given
+        // given
         when(productRepository.save(any(Product.class))).then(returnsFirstArg());
-        //when
+        // when
         Product addedProduct = productService.add(PRODUCT_1);
-        //then
+        // then
         assertEquals(PRODUCT_1, addedProduct);
+        verify(productRepository).save(PRODUCT_1);
     }
 
     @Test
     void shouldUpdateProductWhenValidProductAndIdGiven() {
-        //given
+        // given
         when(productRepository.save(any(Product.class))).then(returnsFirstArg());
-        when(productRepository.findById(PRODUCT1_ID)).thenReturn(Optional.ofNullable(PRODUCT_1));
-        doCallRealMethod().when(productMapper).updateProduct(PRODUCT_2, PRODUCT_1);
+        when(productRepository.findById(PRODUCT_1_ID)).thenReturn(Optional.ofNullable(PRODUCT_1));
         productService.add(PRODUCT_1);
-        //when
-        Product updatedProduct = productService.update(PRODUCT_2, PRODUCT1_ID);
-        //then
-        assertNotNull(updatedProduct);
-        assertEquals(PRODUCT_2.getName(), updatedProduct.getName());
-        assertEquals(PRODUCT_2.getPrice(), updatedProduct.getPrice());
-        assertEquals(PRODUCT_2.getDescription(), updatedProduct.getDescription());
-
+        // when
+        Product updatedProduct = productService.update(PRODUCT_2, PRODUCT_1_ID);
+        // then
         verify(productRepository).flush();
-        verify(productRepository, atMost(1)).findById(anyLong());
-        verify(productMapper).updateProduct(any(Product.class), any(Product.class));
+        verify(productRepository).save(updatedProduct);
+        verify(productMapper).updateProductFromParam(PRODUCT_2, updatedProduct);
     }
 }

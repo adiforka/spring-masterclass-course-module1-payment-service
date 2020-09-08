@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 @Mapper(componentModel = "spring", uses = FastMoneyMapper.class)
 public interface ProductMapper {
 
@@ -17,7 +16,7 @@ public interface ProductMapper {
     ProductDTO toProductDTO(Product product);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateProduct(Product product, @MappingTarget Product toUpdate);
+    void updateProductFromParam(Product product, @MappingTarget Product toUpdate);
 
     @IterableMapping(elementTargetType = ProductDTO.class)
     List<ProductDTO> toProductDTOs(List<Product> products);
