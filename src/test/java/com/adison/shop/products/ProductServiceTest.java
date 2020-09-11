@@ -21,8 +21,6 @@ public class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
-    @Mock
-    private ProductMapper productMapper;
     private ProductService productService;
 
     private static final Product PRODUCT_1 = Product.builder()
@@ -42,7 +40,7 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService(productRepository, productMapper);
+        productService = new ProductService(productRepository);
     }
 
     @Test
@@ -59,14 +57,21 @@ public class ProductServiceTest {
     @Test
     void shouldUpdateProductWhenValidProductAndIdGiven() {
         // given
-        when(productRepository.save(any(Product.class))).then(returnsFirstArg());
         when(productRepository.findById(PRODUCT_1_ID)).thenReturn(Optional.ofNullable(PRODUCT_1));
-        productService.add(PRODUCT_1);
         // when
-        Product updatedProduct = productService.update(PRODUCT_2, PRODUCT_1_ID);
+        Product updated = productService.update(PRODUCT_2, PRODUCT_1_ID);
         // then
         verify(productRepository).flush();
-        verify(productRepository).save(updatedProduct);
-        verify(productMapper).updateProductFromParam(PRODUCT_2, updatedProduct);
+        verify(productRepository, atMost(1)).findById(anyLong());
+        // perhaps controversially,
+        // additionally want to check the tested method returns the instance as updated,
+        // and that the updated instance's ID remains unchanged
+        assertAll(
+                () -> assertEquals(PRODUCT_2.getName(), updated.getName()),
+                () -> assertEquals(PRODUCT_2.getPrice(), updated.getPrice()),
+                () -> assertEquals(PRODUCT_2.getDescription(), updated.getDescription()),
+                () -> assertEquals(PRODUCT_2.getType(), updated.getType()),
+                () -> assertEquals(PRODUCT_1_ID, updated.getId())
+        );
     }
 }

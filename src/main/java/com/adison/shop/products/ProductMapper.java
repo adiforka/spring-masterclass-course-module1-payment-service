@@ -15,9 +15,6 @@ public interface ProductMapper {
 
     ProductDTO toProductDTO(Product product);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateProductFromParam(Product product, @MappingTarget Product toUpdate);
-
     @IterableMapping(elementTargetType = ProductDTO.class)
     List<ProductDTO> toProductDTOs(List<Product> products);
 

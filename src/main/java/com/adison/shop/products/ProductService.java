@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
     //@CacheEvict(cacheNames = "productsNames")
     @Retry
@@ -29,9 +28,16 @@ public class ProductService {
     public Product update(Product source, Long id) {
         Product target = productRepository.findById(id)
                 .orElseThrow(ProductNotFoundException::new);
-        productMapper.updateProductFromParam(source, target);
+        updateInstanceDetails(source, target);
         productRepository.flush();
         return target;
+    }
+
+    private void updateInstanceDetails(Product source, Product target) {
+        target.setName(source.getName());
+        target.setPrice(source.getPrice());
+        target.setType(source.getType());
+        target.setDescription(source.getDescription());
     }
 
     public Product getById(Long id) {
